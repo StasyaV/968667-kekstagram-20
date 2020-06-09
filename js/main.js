@@ -2,9 +2,8 @@
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 var fragment = document.createDocumentFragment();
 var picturesBlock = document.querySelector('.pictures');
-var pictureLikes = document.querySelector('.picture__likes');
-var pictureComments = document.querySelector('.picture__comments');
-var photos = [];
+var photosList = [];
+var commentsList = [];
 var photosCounts = 25;
 var commentsMessage = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -18,31 +17,57 @@ var getRandomNum = function (minValue, maxValue) {
   return randomNum > minValue ? randomNum : minValue;
 };
 
-var commentBlock = {
-  avatar: 'img/avatar-' + getRandomNum(1, 6) + '.svg',
-  message: commentsMessage[getRandomNum(0, commentsMessage.length)],
-  name: names[getRandomNum(0, names.length)]
+var getCommentsList = function () {
+  for (var i = 0; i < getRandomNum(0, 10); i++) {
+    var commentBlock = {
+      avatar: 'img/avatar-' + getRandomNum(1, 6) + '.svg',
+      message: commentsMessage[getRandomNum(0, commentsMessage.length)],
+      name: names[getRandomNum(0, names.length)]
+    };
+    commentsList.push(commentBlock);
+  }
+  return commentsList;
 };
 
-var photo = {
-  url: 'photos/' + getRandomNum(1, 25) + '.jpg',
-  description: '',
-  likes: getRandomNum(15, 200),
-  comments: getRandomNum(0, 200)
+getCommentsList();
+
+var getPhotos = function () {
+  for (var i = 0; i < photosCounts; i++) {
+    var photo = {
+      url: 'photos/' + getRandomNum(1, 25) + '.jpg',
+      description: '',
+      likes: getRandomNum(15, 200),
+      comments: commentsList.length
+    }
+    photosList.push(photo);
+  }
+  return photosList;
 };
 
-var renderPicture = function () {
+getPhotos();
+console.log(photosList[1]);
+console.log(photosList[1].url);
+console.log(photosList[1].likes);
+console.log(photosList[1].comments);
+
+var renderPicture = function (photo) {
   var picture = pictureTemplate.cloneNode(true);
-  picture.src = photo.url;
-  pictureLikes.textContent = photo.likes;
-  pictureComments.textContent = commentBlock;
+  picture.querySelector('picture__img').src = photo.url;
+  picture.querySelector('.picture__likes').textContent = photo.likes;
+  picture.querySelector('.picture__comments').textContent = photo.comments;
+
   return picture;
 };
 
-for (var i = 0; i < photosCounts; i++) {
-  var element = renderPicture();
-  photos.push(element[i]);
+renderPicture(photosList[0])
+console.log(picture);
+
+var fragment = document.createDocumentFragment();
+
+for (var i = 0; i < photosList.length; i++) {
+  var element = renderPicture(photosList[i]);
   fragment.appendChild(element[i]);
 }
 
 picturesBlock.appendChild(fragment);
+
