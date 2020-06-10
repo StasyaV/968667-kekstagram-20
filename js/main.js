@@ -29,8 +29,6 @@ var getCommentsList = function () {
   return commentsList;
 };
 
-getCommentsList();
-
 var getPhotos = function () {
   for (var i = 0; i < photosCounts; i++) {
     var photo = {
@@ -44,8 +42,6 @@ var getPhotos = function () {
   return photosList;
 };
 
-getPhotos();
-
 var createPicture = function (photo) {
   var picture = pictureTemplate.cloneNode(true);
   picture.querySelector('.picture__img').src = photo.url;
@@ -55,9 +51,14 @@ var createPicture = function (photo) {
   return picture;
 };
 
-for (var i = 0; i < photosList.length; i++) {
-  var element = createPicture(photosList[i]);
-  fragment.appendChild(element);
-}
+var renderPictures = function () {
+  for (var i = 0; i < photosList.length; i++) {
+    var element = createPicture(photosList[i]);
+    fragment.appendChild(element);
+  }
+  picturesBlock.appendChild(fragment);
+};
 
-picturesBlock.appendChild(fragment);
+getCommentsList();
+getPhotos();
+renderPictures();
