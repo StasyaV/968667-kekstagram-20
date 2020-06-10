@@ -17,27 +17,31 @@ var getRandomNum = function (minValue, maxValue) {
   return randomNum > minValue ? randomNum : minValue;
 };
 
-var getCommentsList = function () {
+var getCommentsList = function (name, comments) {
   for (var i = 0; i < getRandomNum(0, 10); i++) {
     var commentBlock = {
       avatar: 'img/avatar-' + getRandomNum(1, 6) + '.svg',
-      message: commentsMessage[getRandomNum(0, commentsMessage.length)],
-      name: names[getRandomNum(0, names.length)]
+      message: comments[getRandomNum(0, comments.length)],
+      name: name[getRandomNum(0, name.length)]
     };
     commentsList.push(commentBlock);
   }
   return commentsList;
 };
 
+var getPhotoObj = function (comments) {
+  var photoObj = {
+    url: 'photos/' + getRandomNum(1, 25) + '.jpg',
+    description: '',
+    likes: getRandomNum(15, 200),
+    comments: comments.length
+  };
+  return photoObj;
+};
+
 var getPhotos = function () {
   for (var i = 0; i < photosCounts; i++) {
-    var photo = {
-      url: 'photos/' + getRandomNum(1, 25) + '.jpg',
-      description: '',
-      likes: getRandomNum(15, 200),
-      comments: commentsList.length
-    };
-    photosList.push(photo);
+    photosList.push(getPhotoObj(commentsList));
   }
   return photosList;
 };
@@ -59,6 +63,6 @@ var renderPictures = function () {
   picturesBlock.appendChild(fragment);
 };
 
-getCommentsList();
+getCommentsList(names, commentsMessage);
 getPhotos();
 renderPictures();
