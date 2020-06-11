@@ -1,9 +1,4 @@
 'use strict';
-var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-var fragment = document.createDocumentFragment();
-var picturesBlock = document.querySelector('.pictures');
-var photosList = [];
-var commentsList = [];
 var photosCounts = 25;
 var commentsMessage = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -17,16 +12,17 @@ var getRandomNum = function (minValue, maxValue) {
   return randomNum > minValue ? randomNum : minValue;
 };
 
-var getCommentsList = function (name, comments) {
+var getCommentsList = function (namesArr, comments) {
+  var commentsArray = [];
   for (var i = 0; i < getRandomNum(0, 10); i++) {
     var commentBlock = {
       avatar: 'img/avatar-' + getRandomNum(1, 6) + '.svg',
       message: comments[getRandomNum(0, comments.length)],
-      name: name[getRandomNum(0, name.length)]
+      name: namesArr[getRandomNum(0, namesArr.length)]
     };
-    commentsList.push(commentBlock);
+    commentsArray.push(commentBlock);
   }
-  return commentsList;
+  return commentsArray;
 };
 
 var getPhotoObj = function (comments) {
@@ -40,13 +36,16 @@ var getPhotoObj = function (comments) {
 };
 
 var getPhotos = function () {
+  var photosArray = [];
   for (var i = 0; i < photosCounts; i++) {
-    photosList.push(getPhotoObj(commentsList));
+    var commentsArray = getCommentsList(names, commentsMessage);
+    photosArray.push(getPhotoObj(commentsArray));
   }
-  return photosList;
+  return photosArray;
 };
 
 var createPicture = function (photo) {
+  var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var picture = pictureTemplate.cloneNode(true);
   picture.querySelector('.picture__img').src = photo.url;
   picture.querySelector('.picture__likes').textContent = photo.likes;
@@ -56,13 +55,14 @@ var createPicture = function (photo) {
 };
 
 var renderPictures = function () {
-  for (var i = 0; i < photosList.length; i++) {
-    var element = createPicture(photosList[i]);
+  var photosArray = getPhotos();
+  var fragment = document.createDocumentFragment();
+  var picturesBlock = document.querySelector('.pictures');
+  for (var i = 0; i < photosArray.length; i++) {
+    var element = createPicture(photosArray[i]);
     fragment.appendChild(element);
   }
   picturesBlock.appendChild(fragment);
 };
 
-getCommentsList(names, commentsMessage);
-getPhotos();
 renderPictures();
