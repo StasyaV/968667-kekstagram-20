@@ -44,6 +44,8 @@ var getPhotos = function () {
   return photosArray;
 };
 
+var photosData = getPhotos();
+
 var createPicture = function (photo) {
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var picture = pictureTemplate.cloneNode(true);
@@ -55,14 +57,53 @@ var createPicture = function (photo) {
 };
 
 var renderPictures = function () {
-  var photosArray = getPhotos();
   var fragment = document.createDocumentFragment();
   var picturesBlock = document.querySelector('.pictures');
-  for (var i = 0; i < photosArray.length; i++) {
-    var element = createPicture(photosArray[i]);
+  for (var i = 0; i < photosData.length; i++) {
+    var element = createPicture(photosData[i]);
     fragment.appendChild(element);
   }
   picturesBlock.appendChild(fragment);
 };
 
+var createComment = function (commentsElement) {
+  var commentsTemplate = document.querySelector('.social__comment');
+  var comment = commentsTemplate.cloneNode(true);
+  comment.querySelector('img').src = commentsElement.avatar;
+  comment.querySelector('img').alt = commentsElement.name;
+  comment.querySelector('.social__text').textContent = commentsElement.message;
+
+  return comment;
+};
+
+var renderComments = function () {
+  var commentsArray = getCommentsList(names, commentsMessage);
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < commentsArray.length; i++) {
+    var element = createComment(commentsArray[i]);
+    fragment.appendChild(element);
+  }
+  return fragment;
+};
+var makeBlocksHidden = function () {
+  document.querySelector('.social__comment-count').classList.add('hidden');
+  document.querySelector('.comments-loader').classList.add('hidden');
+};
+
+var showBigPicture = function (photo) {
+  var bigPictureBlock = document.querySelector('.big-picture');
+  bigPictureBlock.classList.remove('hidden');
+
+  bigPictureBlock.querySelector('.big-picture__img').querySelector('img').src = photo.url;
+  bigPictureBlock.querySelector('.social__caption').textContent = photo.description;
+  bigPictureBlock.querySelector('.likes-count').textContent = photo.likes;
+  bigPictureBlock.querySelector('.comments-count').textContent = photo.comments;
+
+  bigPictureBlock.querySelector('.social__comments').appendChild(renderComments());
+  document.querySelector('body').classList.add('modal-open');
+  makeBlocksHidden();
+};
+
 renderPictures();
+showBigPicture(photosData[0]);
+renderComments();
