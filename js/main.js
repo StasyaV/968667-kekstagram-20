@@ -90,14 +90,14 @@ var makeBlocksHidden = function () {
   document.querySelector('.comments-loader').classList.add('hidden');
 };
 
-var showBigPicture = function (photos) {
+var showBigPicture = function (photo) {
   var bigPictureBlock = document.querySelector('.big-picture');
   bigPictureBlock.classList.remove('hidden');
 
-  bigPictureBlock.querySelector('.big-picture__img').querySelector('img').src = photos.url;
-  bigPictureBlock.querySelector('.social__caption').textContent = photos.description;
-  bigPictureBlock.querySelector('.likes-count').textContent = photos.likes;
-  bigPictureBlock.querySelector('.comments-count').textContent = photos.comments;
+  bigPictureBlock.querySelector('.big-picture__img').querySelector('img').src = photo.url;
+  bigPictureBlock.querySelector('.social__caption').textContent = photo.description;
+  bigPictureBlock.querySelector('.likes-count').textContent = photo.likes;
+  bigPictureBlock.querySelector('.comments-count').textContent = photo.comments;
 
   bigPictureBlock.querySelector('.social__comments').appendChild(renderComments());
   document.querySelector('body').classList.add('modal-open');
