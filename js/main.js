@@ -1,4 +1,5 @@
 'use strict';
+var ESCAPE = 'Escape';
 var photosCounts = 25;
 var commentsMessage = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -107,3 +108,38 @@ var showBigPicture = function (photo) {
 renderPictures();
 showBigPicture(photosData[0]);
 renderComments();
+
+var closeButton = document.querySelector('#picture-cancel');
+var bigPictureWindow = document.querySelector('.big-picture');
+var closeUpload = document.querySelector('#upload-cancel');
+var imageEditForm = document.querySelector('.img-upload__overlay');
+
+var closePopup = function (fragmentToClick, fragmentToClose) {
+  fragmentToClick.addEventListener('click', function () {
+    document.querySelector('body').classList.remove('modal-open');
+    fragmentToClose.classList.add('hidden');
+  });
+
+  var closeByEscape = function (evt) {
+    if (evt.key === ESCAPE) {
+      evt.preventDefault();
+      document.querySelector('body').classList.remove('modal-open');
+      fragmentToClose.classList.add('hidden');
+    }
+  };
+  document.addEventListener('keydown', closeByEscape);
+};
+
+document.removeEventListener('keydown', closePopup);
+
+var showEditImageForm = function () {
+  var uploadFile = document.querySelector('#upload-file');
+  uploadFile.addEventListener('change', function () {
+    document.querySelector('body').classList.add('modal-open');
+    document.querySelector('.img-upload__overlay').classList.remove('hidden');
+  });
+};
+
+showEditImageForm();
+closePopup(closeButton, bigPictureWindow);
+closePopup(closeUpload, imageEditForm);
