@@ -190,12 +190,19 @@ var validateHashtag = function () {
       if (!re.test(hashtags[i]) || hashtags[i].length > maxHashtagLength || hashtags.length > maxHashtagCounts) {
         console.log('error');
         // inputHashtags.addEventListener('invalid', function () {
-        //   if (inputHashtags.validity.invalid)
+        //   if (inputHashtags.validity.invalid) {
         //     inputHashtags.setCustomValidity('Хештег может состоять из решётки, букв и цифр. Один хештег не может содержать более 20 символов. Можно использовать не более пяти хештегов для одной фотографии');
+        //   } else {
+        //     inputHashtags.setCustomValidity('');
+        //     console.log('ok');
+        //   }
         // });
+        // } else {
+        //   console.log('ok');
+        //   // inputHashtags.setCustomValidity('');
+        // }
       } else {
         console.log('ok');
-        // inputHashtags.setCustomValidity('');
       }
     };
   });
