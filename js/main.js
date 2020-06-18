@@ -152,7 +152,7 @@ var popupSettings = function () {
 
 var toChangeSaturation = function () {
   var levelPin = document.querySelector('.effect-level__pin');
-  var saturationValue = document.querySelector('.effect-level__value');
+  var saturateValue = document.querySelector('.effect-level__value');
   var effectLine = document.querySelector('.effect-level__depth');
   var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
   levelPin.addEventListener('mousedown', function (evt) {
@@ -163,6 +163,8 @@ var toChangeSaturation = function () {
     };
 
     var onMouseMove = function (moveEvt) {
+      var min_y = '0';
+      var max_y = '460px';
       moveEvt.preventDefault();
 
       var shift = {
@@ -176,10 +178,16 @@ var toChangeSaturation = function () {
       };
 
       levelPin.style.left = (levelPin.offsetLeft - shift.x) + 'px';
+      if (levelPin.style.left < min_y) {
+        levelPin.style.left = min_y;
+      } else if (levelPin.style.left > max_y) {
+        levelPin.style.left = max_y;
+      }
+
       effectLine.style.width = levelPin.style.left;
       effectLine.style.maxWidth = '452px';
-      // saturationValue = (levelPin.offsetLeft - shift.x) + '%';
-      imgPreview.style.filter = 'saturation' + '(' + (levelPin.offsetLeft - shift.x) + '%' + ')';
+      saturateValue.value = (levelPin.offsetLeft - shift.x);
+      imgPreview.style.filter = 'saturate(' + (levelPin.offsetLeft - shift.x) + '%)';
     };
 
     var onMouseUp = function (upEvt) {
@@ -199,7 +207,10 @@ form.addEventListener('submit', function (evt) {
 });
 
 var validateHashtag = function () {
-  var HASHTAG_ERROR_MESSAGE = 'Хештег может состоять из решётки, букв и цифр. Один хештег не может содержать более 20 символов. Можно использовать не более пяти хештегов для одной фотографии';
+  var HASHTAG_ERROR_SYMBOLS_MESSAGE = 'Хештег может состоять из решётки, букв и цифр.';
+  var HASHTAG_TOO_LONG_ERROR_MESSAGE = 'Один хештег не может содержать более 20 символов.';
+  var HASHTAG_COUNTS_ERROR_MESSAGE = 'Можно использовать не более пяти хештегов для одной фотографии.';
+  var HASHTAG_NON_UNIQUE_MESSAGE = 'Хештеги не могут повторяться.';
   var hashtagRegExp = /^#[a-zA-ZА-Яа-я0-9]*$/;
   var inputHashtags = document.querySelector('.text__hashtags');
   var maxHashtagLength = 20;
@@ -210,8 +221,15 @@ var validateHashtag = function () {
     for (var i = 0; i < hashtags.length; i++) {
       var isHashtagValidity = hashtagRegExp.test(hashtags[i]);
       var isHashtagTooLong = hashtags[i].length > maxHashtagLength;
-      if (!isHashtagValidity || isHashtagTooLong || isHashtagCountsMore) {
-        inputHashtags.setCustomValidity(HASHTAG_ERROR_MESSAGE);
+      var firstElement = hashtags[0];
+      if (!isHashtagValidity) {
+        inputHashtags.setCustomValidity(HASHTAG_ERROR_SYMBOLS_MESSAGE);
+      } else if (isHashtagTooLong) {
+        inputHashtags.setCustomValidity(HASHTAG_TOO_LONG_ERROR_MESSAGE);
+      } else if (isHashtagCountsMore) {
+        inputHashtags.setCustomValidity(HASHTAG_COUNTS_ERROR_MESSAGE);
+      } else if (firstElement === hashtags[i]) {
+        inputHashtags.setCustomValidity(HASHTAG_NON_UNIQUE_MESSAGE);
       } else {
         inputHashtags.setCustomValidity('');
       }
