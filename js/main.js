@@ -152,52 +152,55 @@ var popupSettings = function () {
 
 var toChangeSaturation = function () {
   var levelPin = document.querySelector('.effect-level__pin');
+  var levelPinRadius = 9;
+  var slider = document.querySelector('.effect-level__line');
   var saturateValue = document.querySelector('.effect-level__value');
   var effectLine = document.querySelector('.effect-level__depth');
   var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
+
   levelPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
+
+    var getCoords = function (elem) {
+      var box = elem.getBoundingClientRect();
+      return {
+        top: box.top + pageYOffset,
+        left: box.left + pageXOffset
+      };
     };
 
-    var onMouseMove = function (moveEvt) {
-      var min_y = '0';
-      var max_y = '460px';
-      moveEvt.preventDefault();
+    levelPin.onmousedown = function (evt) {
+      var sliderCoords = getCoords(slider);
+      var buttonCoords = getCoords(levelPin);
+      var shiftX = evt.pageX - buttonCoords.left;
+      var maxX = '460px';
 
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+      document.onmousemove = function (evt) {
+        var left = evt.pageX - shiftX - sliderCoords.left;
+        var right = slider.offsetWidth - levelPin.offsetWidth;
+        if (left < 0) {
+          left = 0;
+        }
+
+        if (left > right) {
+          left = right;
+        }
+
+        if (right > maxX) {
+          right = maxX;
+        }
+
+        levelPin.style.left = left + levelPinRadius + 'px';
+        effectLine.style.width = left + levelPinRadius + 'px';
+        saturateValue.value = (levelPin.offsetLeft - shiftX);
+        imgPreview.style.filter = 'saturate(' + (levelPin.offsetLeft - shiftX) + '%)';
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+      document.onmouseup = function () {
+        document.onmousemove = document.onmouseup = null;
       };
-
-      levelPin.style.left = (levelPin.offsetLeft - shift.x) + 'px';
-      if (levelPin.style.left < min_y) {
-        levelPin.style.left = min_y;
-      } else if (levelPin.style.left > max_y) {
-        levelPin.style.left = max_y;
-      }
-
-      effectLine.style.width = levelPin.style.left;
-      effectLine.style.maxWidth = '452px';
-      saturateValue.value = (levelPin.offsetLeft - shift.x);
-      imgPreview.style.filter = 'saturate(' + (levelPin.offsetLeft - shift.x) + '%)';
+      return false;
     };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
   });
 };
 
