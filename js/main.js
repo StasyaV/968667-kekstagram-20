@@ -160,7 +160,6 @@ var toChangeSaturation = function () {
 
   levelPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
     var getCoords = function (elem) {
       var box = elem.getBoundingClientRect();
       return {
@@ -169,38 +168,46 @@ var toChangeSaturation = function () {
       };
     };
 
-    levelPin.onmousedown = function (evt) {
+    var onMouseMove = function (moveEvt) {
       var sliderCoords = getCoords(slider);
       var buttonCoords = getCoords(levelPin);
-      var shiftX = evt.pageX - buttonCoords.left;
+      var shiftX = moveEvt.pageX - buttonCoords.left;
       var maxX = '460px';
 
-      document.onmousemove = function (evt) {
-        var left = evt.pageX - shiftX - sliderCoords.left;
-        var right = slider.offsetWidth - levelPin.offsetWidth;
-        if (left < 0) {
-          left = 0;
-        }
+      var left = evt.pageX - shiftX - sliderCoords.left;
+      var right = slider.offsetWidth - levelPin.offsetWidth;
 
-        if (left > right) {
-          left = right;
-        }
+      if (left < 0) {
+        left = 0;
+      }
 
-        if (right > maxX) {
-          right = maxX;
-        }
+      if (left > right) {
+        left = right;
+      }
 
-        levelPin.style.left = left + levelPinRadius + 'px';
-        effectLine.style.width = left + levelPinRadius + 'px';
-        saturateValue.value = (levelPin.offsetLeft - shiftX);
-        imgPreview.style.filter = 'saturate(' + (levelPin.offsetLeft - shiftX) + '%)';
-      };
+      if (right > maxX) {
+        right = maxX;
+      }
 
-      document.onmouseup = function () {
-        document.onmousemove = document.onmouseup = null;
-      };
-      return false;
+      levelPin.style.left = left + levelPinRadius + 'px';
+      effectLine.style.width = left + levelPinRadius + 'px';
+      saturateValue.value = (levelPin.offsetLeft - shiftX);
+      imgPreview.style.filter = 'saturate(' + (levelPin.offsetLeft - shiftX) + '%)';
     };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    document.addEventListener('mouseup', function () {
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+    });
   });
 };
 
