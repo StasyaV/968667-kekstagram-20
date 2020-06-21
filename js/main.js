@@ -217,7 +217,7 @@ form.addEventListener('submit', function (evt) {
 });
 
 var validateHashtag = function () {
-  var HASHTAG_ERROR_SYMBOLS_MESSAGE = 'Хештег может состоять из решётки, букв и цифр.';
+  var HASHTAG_ERROR_SYMBOLS_MESSAGE = 'Хештег может состоять из решётки, букв и цифр. В хештеге не может быть только решётка';
   var HASHTAG_TOO_LONG_ERROR_MESSAGE = 'Один хештег не может содержать более 20 символов.';
   var HASHTAG_COUNTS_ERROR_MESSAGE = 'Можно использовать не более пяти хештегов для одной фотографии.';
   var HASHTAG_NON_UNIQUE_MESSAGE = 'Хештеги не могут повторяться.';
@@ -232,13 +232,13 @@ var validateHashtag = function () {
       var isHashtagValidity = hashtagRegExp.test(hashtags[i]);
       var isHashtagTooLong = hashtags[i].length > maxHashtagLength;
       var firstElement = hashtags[0];
-      if (!isHashtagValidity) {
+      if (!isHashtagValidity || hashtags[i] === '#') {
         inputHashtags.setCustomValidity(HASHTAG_ERROR_SYMBOLS_MESSAGE);
       } else if (isHashtagTooLong) {
         inputHashtags.setCustomValidity(HASHTAG_TOO_LONG_ERROR_MESSAGE);
       } else if (isHashtagCountsMore) {
         inputHashtags.setCustomValidity(HASHTAG_COUNTS_ERROR_MESSAGE);
-      } else if (firstElement === hashtags[i]) {
+      } else if (firstElement === hashtags[i] && hashtags.length > 1) {
         inputHashtags.setCustomValidity(HASHTAG_NON_UNIQUE_MESSAGE);
       } else {
         inputHashtags.setCustomValidity('');
