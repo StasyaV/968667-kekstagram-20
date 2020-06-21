@@ -150,32 +150,44 @@ var popupSettings = function () {
   }
 };
 
-var toChangeSaturation = function () {
+var slider = function () {
   var levelPin = document.querySelector('.effect-level__pin');
-  var levelPinRadius = 9;
-  var slider = document.querySelector('.effect-level__line');
-  var saturateValue = document.querySelector('.effect-level__value');
+  var levelLine = document.querySelector('.effect-level__line');
+  var inputLine = document.querySelector('.effect-level__value');
   var effectLine = document.querySelector('.effect-level__depth');
-  var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
+  // var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
 
-  levelPin.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
-    var getCoords = function (elem) {
-      var box = elem.getBoundingClientRect();
-      return {
-        top: box.top + pageYOffset,
-        left: box.left + pageXOffset
-      };
+  var updateSliderValues = function (ratio) {
+    levelPin.style.left = ratio + '%';
+    effectLine.style.width = ratio + '%';
+    inputLine.value = ratio;
+    // imgPreview.style.filter = 'saturate(' + (levelPin.offsetLeft - shiftX) + '%)';
+  };
+
+  // var resetSliderValues = function () {
+  //   levelPin.style.left = 100 + '%';
+  //   effectLine.style.width = 100 + '%';
+  //   inputLine.value = 100;
+  // };
+
+  var getCoords = function (elem) {
+    var box = elem.getBoundingClientRect();
+    return {
+      left: box.left + pageXOffset
     };
+  };
 
-    var onMouseMove = function (moveEvt) {
-      var sliderCoords = getCoords(slider);
-      var buttonCoords = getCoords(levelPin);
-      var shiftX = moveEvt.pageX - buttonCoords.left;
-      var maxX = '460px';
+  var onLevelPinMouseDown = function (evt) {
+    evt.preventDefault();
 
-      var left = evt.pageX - shiftX - sliderCoords.left;
-      var right = slider.offsetWidth - levelPin.offsetWidth;
+    var sliderCoords = getCoords(levelLine);
+    var buttonCoords = getCoords(levelPin);
+    var shiftX = evt.pageX - buttonCoords.left;
+    var ratio = null;
+
+    var onDocumentMouseMove = function (moveEvt) {
+      var left = moveEvt.pageX - shiftX - sliderCoords.left;
+      var right = levelLine.offsetWidth - levelPin.offsetWidth;
 
       if (left < 0) {
         left = 0;
@@ -185,31 +197,25 @@ var toChangeSaturation = function () {
         left = right;
       }
 
-      if (right > maxX) {
-        right = maxX;
-      }
+      ratio = Math.round((left / right) * 100);
+      window.console.log(ratio);
 
-      levelPin.style.left = left + levelPinRadius + 'px';
-      effectLine.style.width = left + levelPinRadius + 'px';
-      saturateValue.value = (levelPin.offsetLeft - shiftX);
-      imgPreview.style.filter = 'saturate(' + (levelPin.offsetLeft - shiftX) + '%)';
+      updateSliderValues(ratio);
     };
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+    var onDocumentMouseUp = function () {
+      document.removeEventListener('mousemove', onDocumentMouseMove);
+      document.removeEventListener('mouseup', onDocumentMouseUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mousemove', onDocumentMouseMove);
+    document.addEventListener('mouseup', onDocumentMouseUp);
+  };
 
-    document.addEventListener('mouseup', function () {
-      document.removeEventListener('mouseup', onMouseUp);
-      document.removeEventListener('mousemove', onMouseMove);
-    });
-  });
+  levelPin.addEventListener('mousedown', onLevelPinMouseDown);
+
 };
+
 
 var form = document.querySelector('form');
 form.addEventListener('submit', function (evt) {
@@ -217,7 +223,7 @@ form.addEventListener('submit', function (evt) {
 });
 
 var validateHashtag = function () {
-  var HASHTAG_ERROR_SYMBOLS_MESSAGE = 'Хештег может состоять из решётки, букв и цифр. В хештеге не может быть только решётка';
+  var HASHTAG_ERROR_SYMBOLS_MESSAGE = 'Хештег может состоять из решётки, букв и цифр. Хештег не может состоять только из решётки';
   var HASHTAG_TOO_LONG_ERROR_MESSAGE = 'Один хештег не может содержать более 20 символов.';
   var HASHTAG_COUNTS_ERROR_MESSAGE = 'Можно использовать не более пяти хештегов для одной фотографии.';
   var HASHTAG_NON_UNIQUE_MESSAGE = 'Хештеги не могут повторяться.';
@@ -225,8 +231,9 @@ var validateHashtag = function () {
   var inputHashtags = document.querySelector('.text__hashtags');
   var maxHashtagLength = 20;
   var maxHashtagCounts = 5;
+
   inputHashtags.addEventListener('keyup', function () {
-    var hashtags = inputHashtags.value.split(' ');
+    var hashtags = inputHashtags.value.trim().toLowerCase().split(' ');
     var isHashtagCountsMore = hashtags.length > maxHashtagCounts;
     for (var i = 0; i < hashtags.length; i++) {
       var isHashtagValidity = hashtagRegExp.test(hashtags[i]);
@@ -248,5 +255,5 @@ var validateHashtag = function () {
 };
 
 popupSettings();
-toChangeSaturation();
+slider();
 validateHashtag();
