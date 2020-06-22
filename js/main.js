@@ -139,6 +139,7 @@ var popupSettings = function () {
   var imageEditWindow = document.querySelector('.img-upload__overlay');
   var closeUpload = document.querySelector('#upload-cancel');
   var uploadFile = document.querySelector('#upload-file');
+  var hashatagsInput = imageEditWindow.querySelector('input[name=hashtags]');
 
   if (imageEditWindow) {
     closeUpload.addEventListener('click', function () {
@@ -146,6 +147,14 @@ var popupSettings = function () {
     });
     uploadFile.addEventListener('change', function () {
       showEditImageForm();
+    });
+
+    hashatagsInput.addEventListener('focus', function () {
+      document.removeEventListener('keydown', closeByEscImageForm);
+    });
+
+    hashatagsInput.addEventListener('blur', function () {
+      document.addEventListener('keydown', closeByEscImageForm);
     });
   }
 };
