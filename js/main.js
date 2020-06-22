@@ -159,6 +159,20 @@ var popupSettings = function () {
   }
 };
 
+var changePhotoEffects = function () {
+  var effectsList = document.querySelector('.effects__list');
+  var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
+
+  var acceptPhotoEffect = function (evt) {
+    var value = evt.target.value;
+    var effectClass = 'effects__preview--' + value;
+    imgPreview.classList.toggle(effectClass);
+  };
+
+  effectsList.addEventListener('change', acceptPhotoEffect);
+};
+
+
 var slider = function () {
   var levelPin = document.querySelector('.effect-level__pin');
   var levelLine = document.querySelector('.effect-level__line');
@@ -275,5 +289,6 @@ var validateHashtag = function () {
 };
 
 popupSettings();
+changePhotoEffects();
 slider();
 validateHashtag();
