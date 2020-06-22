@@ -166,7 +166,7 @@ var changePhotoEffects = function () {
   var acceptPhotoEffect = function (evt) {
     var value = evt.target.value;
     var effectClass = 'effects__preview--' + value;
-    imgPreview.classList.toggle(effectClass);
+    imgPreview.className = effectClass;
   };
 
   effectsList.addEventListener('change', acceptPhotoEffect);
@@ -253,10 +253,6 @@ var validateHashtag = function () {
     errorCounts: 'Можно использовать не более пяти хештегов для одной фотографии.',
     errorUnique: 'Хештеги не могут повторяться.'
   };
-  var HASHTAG_ERROR_SYMBOLS_MESSAGE = 'Хештег может состоять из решётки, букв и цифр. Хештег не может состоять только из решётки';
-  var HASHTAG_TOO_LONG_ERROR_MESSAGE = 'Один хештег не может содержать более 20 символов.';
-  var HASHTAG_COUNTS_ERROR_MESSAGE = 'Можно использовать не более пяти хештегов для одной фотографии.';
-  var HASHTAG_NON_UNIQUE_MESSAGE = 'Хештеги не могут повторяться.';
   var hashtagRegExp = /^#[a-zA-ZА-Яа-я0-9]*$/;
   var inputHashtags = document.querySelector('.text__hashtags');
   var maxHashtagLength = 20;
