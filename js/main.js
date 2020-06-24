@@ -26,12 +26,13 @@ var getCommentsList = function (namesArr, comments) {
   return commentsArray;
 };
 
-var getPhotoObj = function (comments) {
+var getPhotoObj = function (index, comments) {
   var photoObj = {
     url: 'photos/' + getRandomNum(1, 25) + '.jpg',
     description: '',
     likes: getRandomNum(15, 200),
-    comments: comments.length
+    comments: comments.length,
+    id: index
   };
   return photoObj;
 };
@@ -40,7 +41,7 @@ var getPhotos = function () {
   var photosArray = [];
   for (var i = 0; i < photosCounts; i++) {
     var commentsArray = getCommentsList(names, commentsMessage);
-    photosArray.push(getPhotoObj(commentsArray));
+    photosArray.push(getPhotoObj(i, commentsArray));
   }
   return photosArray;
 };
@@ -53,6 +54,7 @@ var createPicture = function (photo) {
   picture.querySelector('.picture__img').src = photo.url;
   picture.querySelector('.picture__likes').textContent = photo.likes;
   picture.querySelector('.picture__comments').textContent = photo.comments;
+  picture.setAttribute('picture_id', photo.id);
   return picture;
 };
 
@@ -61,7 +63,6 @@ var renderPictures = function () {
   var picturesBlock = document.querySelector('.pictures');
   for (var i = 0; i < photosData.length; i++) {
     var element = createPicture(photosData[i]);
-    element.querySelector('.picture__img').id = 'picture_' + i;
     fragment.appendChild(element);
   }
   picturesBlock.appendChild(fragment);
@@ -184,13 +185,20 @@ var popupSettings = function () {
 
   picturesContainer.addEventListener('click', function (evt) {
     evt.preventDefault();
-    var id = evt.target.id;
-    console.log(id);
-    var element = document.getElementById(id);
-    console.log(element);
-    var img = element.closest('.picture');
-    showBigPicture(img);
-    console.log(img);
+    var clickedPicture = evt.target.parentNode;
+    if (clickedPicture === null) {
+      return;
+    }
+    //Считать дата атриибут с ид у кликнутой картинки.
+    //На основе ид из массива с данными, найти объект с данными, с соответствующим ид. Метод find или цикл
+    //После - объект передать в функцию, что отрисовывает большой поп-ап.
+    // var id = evt.target.parentNode.id;
+    // console.log(id);
+    // var element = document.getElementById(id);
+    // console.log(element);
+    // var img = element.closest('.picture');
+    // showBigPicture(img);
+    // console.log(img);
   });
 };
 
