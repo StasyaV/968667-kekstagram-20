@@ -6,10 +6,11 @@ var openBigImage = function (evt) {
   evt.preventDefault();
   var clickedPicture = evt.target.parentNode;
   var id = clickedPicture.id;
-  if (clickedPicture === null) {
+  console.log(clickedPicture);
+  if (clickedPicture.id === null) {
     return;
   }
-  if (!evt.target.matches('input[type="file"]')) {
+  if (evt.target.tagName != 'fieldset') {
     for (var i = 0; i < window.photosData.length; i++) {
       if (Number(photosData[i].id) === Number(id)) {
         window.showBigPicture(window.photosData[i]);
