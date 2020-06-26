@@ -1,25 +1,26 @@
 'use strict';
 var ESCAPE = 'Escape';
-var ENTER = 'Enter';
+var mock = window.mock;
+
+var getPictureData = function (pictureId, data) {
+  var picture = data.find(function (item) {
+    return +item.id === +pictureId;
+  });
+  return picture;
+};
 
 var openBigImage = function (evt) {
-  evt.preventDefault();
-  var clickedPicture = evt.target.parentNode;
-  var id = clickedPicture.id;
-  console.log(clickedPicture);
-  if (clickedPicture.id === null) {
+  var clickedPicture = evt.target.closest('.picture');
+
+  if (clickedPicture === null) {
     return;
   }
-  if (evt.target.tagName != 'fieldset') {
-    for (var i = 0; i < window.photosData.length; i++) {
-      if (Number(photosData[i].id) === Number(id)) {
-        window.showBigPicture(window.photosData[i]);
-        break
-      };
-    }
-  }
+
+  var pictureData = getPictureData(clickedPicture.id, mock.photosData);
+  window.showBigPicture(pictureData);
+
   document.addEventListener('keydown', closeByEsc);
-}
+};
 
 var closeBigImage = function () {
   document.querySelector('.big-picture').classList.add('hidden');
@@ -50,12 +51,12 @@ var closeByEsc = function (evt) {
   }
 };
 
-var openByEnter = function (evt) {
-  if (evt.key === ENTER) {
-    evt.preventDefault();
-    openBigImage(evt);
-  }
-};
+// var openByEnter = function (evt) {
+//   if (evt.key === ENTER) {
+//     evt.preventDefault();
+//     openBigImage(evt);
+//   }
+// };
 
 var popupSettings = function () {
   var imageEditWindow = document.querySelector('.img-upload__overlay');
@@ -98,10 +99,8 @@ var popupSettings = function () {
   }
 
   picturesContainer.addEventListener('click', openBigImage);
-  picturesContainer.addEventListener('keydown', openByEnter);
-}
-
-
+  // picturesContainer.addEventListener('keydown', openByEnter);
+};
 
 popupSettings();
 

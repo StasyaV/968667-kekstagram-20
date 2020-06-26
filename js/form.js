@@ -11,7 +11,7 @@
     };
 
     effectsList.addEventListener('change', acceptPhotoEffect);
-  }();
+  };
 
 
   var slider = function () {
@@ -77,7 +77,7 @@
     };
 
     levelPin.addEventListener('mousedown', onLevelPinMouseDown);
-  }();
+  };
 
 
   var form = document.querySelector('form');
@@ -111,13 +111,13 @@
           if (!isHashtagValidity) {
             inputHashtags.setCustomValidity(Hashtag.ERROR_SYMBOLS);
           } else if (hashtags[i] === '#') {
-            inputHashtags.setCustomValidity(Hashtag_ERROR_MESSAGES.ERROR_HASH);
+            inputHashtags.setCustomValidity(Hashtag.ERROR_HASH);
           } else if (isHashtagTooLong) {
-            inputHashtags.setCustomValidity(Hashtag_ERROR_MESSAGES.ERROR_LENGTH);
+            inputHashtags.setCustomValidity(Hashtag.ERROR_LENGTH);
           } else if (isHashtagCountsMore) {
-            inputHashtags.setCustomValidity(Hashtag_ERROR_MESSAGES.ERROR_COUNTS);
+            inputHashtags.setCustomValidity(Hashtag.ERROR_COUNTS);
           } else if (firstElement === hashtags[i] && hashtags.length > 1) {
-            inputHashtags.setCustomValidity(Hashtag_ERROR_MESSAGES.ERROR_UNIQUE);
+            inputHashtags.setCustomValidity(Hashtag.ERROR_UNIQUE);
           } else {
             inputHashtags.setCustomValidity('');
           }
@@ -132,5 +132,9 @@
         textDescription.setCustomValidity('');
       }
     }
-  }();
+  };
+
+  slider();
+  validateForm();
+  changePhotoEffects();
 })();
