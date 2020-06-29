@@ -18,6 +18,6 @@
     document.querySelector('body').classList.add('modal-open');
     makeBlocksHidden();
 
-    document.addEventListener('keydown', closeByEsc);
+    document.addEventListener('keydown', window.closeByEsc);
   };
 })();

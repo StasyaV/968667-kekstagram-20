@@ -1,11 +1,13 @@
 'use strict';
 (function () {
+  var scale = {};
   var scaleParam = {
     MAX: 100,
     MIN: 25,
     STEP: 25,
     MEASURE: '%'
-  }
+  };
+
   var value = null;
   var scaleButtonsContainer = document.querySelector('.scale');
   var scaleValue = document.querySelector('.scale__control--value');
@@ -17,9 +19,9 @@
     scaleValue.value = scaleParam.MAX + scaleParam.MEASURE;
   };
 
-  var applyPhotoSize = function (value) {
-    imageToChange.style.transform = 'scale(' + (value / 100) + ')';
-    scaleValue.value = value + scaleParam.MEASURE;
+  var applyPhotoSize = function (num) {
+    imageToChange.style.transform = 'scale(' + (num / 100) + ')';
+    scaleValue.value = num + scaleParam.MEASURE;
   };
 
   var resetPhotoSize = function () {
@@ -27,13 +29,13 @@
   };
 
   var getCurrentValue = function () {
-    return parseInt(scaleValue.value);
-  }
+    return parseInt(scaleValue.value, 10);
+  };
 
   var makeImageSmaller = function () {
     var currentValue = getCurrentValue();
 
-    scaleParam.MAX !== currentValue ? value = currentValue - scaleParam.STEP : value = scaleParam.MAX - scaleParam.STEP;
+    value = (scaleParam.MAX !== currentValue) ? currentValue - scaleParam.STEP : scaleParam.MAX - scaleParam.STEP;
 
     if (value < scaleParam.MIN) {
       value = scaleParam.MIN;
@@ -45,7 +47,7 @@
   var makeImageBigger = function () {
     var currentValue = getCurrentValue();
 
-    scaleParam.MIN !== currentValue ? value = currentValue + scaleParam.STEP : value = scaleParam.MIN + scaleParam.STEP;
+    value = (scaleParam.MIN !== currentValue) ? currentValue + scaleParam.STEP : scaleParam.MIN + scaleParam.STEP;
 
     if (value > scaleParam.MAX) {
       value = scaleParam.MAX;
@@ -67,4 +69,7 @@
       makeImageSmaller();
     }
   });
+
+  scale.resetPhotoSize = resetPhotoSize();
+  scale = window.scale;
 })();

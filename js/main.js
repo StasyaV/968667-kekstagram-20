@@ -19,44 +19,37 @@ var openBigImage = function (evt) {
   var pictureData = getPictureData(clickedPicture.id, mock.photosData);
   window.showBigPicture(pictureData);
 
-  document.addEventListener('keydown', closeByEsc);
+  document.addEventListener('keydown', window.closeByEsc);
 };
 
 var closeBigImage = function () {
   document.querySelector('.big-picture').classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 
-  document.removeEventListener('keydown', closeByEsc);
+  document.removeEventListener('keydown', window.closeByEsc);
 };
 
 var showEditImageForm = function () {
   document.querySelector('body').classList.add('modal-open');
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
 
-  document.addEventListener('keydown', closeByEsc);
+  document.addEventListener('keydown', window.closeByEsc);
 };
 
 var closeEditImageForm = function () {
   document.querySelector('body').classList.remove('modal-open');
   document.querySelector('.img-upload__overlay').classList.add('hidden');
 
-  document.removeEventListener('keydown', closeByEsc);
+  document.removeEventListener('keydown', window.closeByEsc);
 };
 
-var closeByEsc = function (evt) {
+window.closeByEsc = function (evt) {
   if (evt.key === ESCAPE) {
     evt.preventDefault();
     closeEditImageForm();
     closeBigImage();
   }
 };
-
-// var openByEnter = function (evt) {
-//   if (evt.key === ENTER) {
-//     evt.preventDefault();
-//     openBigImage(evt);
-//   }
-// };
 
 var popupSettings = function () {
   var imageEditWindow = document.querySelector('.img-upload__overlay');
@@ -78,19 +71,19 @@ var popupSettings = function () {
     });
 
     hashatagsInput.addEventListener('focus', function () {
-      document.removeEventListener('keydown', closeByEsc);
+      document.removeEventListener('keydown', window.closeByEsc);
     });
 
     hashatagsInput.addEventListener('blur', function () {
-      document.addEventListener('keydown', closeByEsc);
+      document.addEventListener('keydown', window.closeByEsc);
     });
 
     textDescription.addEventListener('focus', function () {
-      document.removeEventListener('keydown', closeByEsc);
+      document.removeEventListener('keydown', window.closeByEsc);
     });
 
     textDescription.addEventListener('blur', function () {
-      document.addEventListener('keydown', closeByEsc);
+      document.addEventListener('keydown', window.closeByEsc);
     });
   }
 
@@ -99,7 +92,6 @@ var popupSettings = function () {
   }
 
   picturesContainer.addEventListener('click', openBigImage);
-  // picturesContainer.addEventListener('keydown', openByEnter);
 };
 
 popupSettings();
