@@ -13,7 +13,6 @@
   var scaleValue = document.querySelector('.scale__control--value');
   var imageToChange = document.querySelector('.img-upload__preview').querySelector('img');
 
-
   var applyDefaultPhotoSize = function () {
     imageToChange.style.transform = 'scale(' + (scaleParam.MAX / 100) + ')';
     scaleValue.value = scaleParam.MAX + scaleParam.MEASURE;
@@ -32,27 +31,24 @@
     return parseInt(scaleValue.value, 10);
   };
 
-  var makeImageSmaller = function () {
+  var setPhotoSize = function (element) {
     var currentValue = getCurrentValue();
 
-    value = (scaleParam.MAX !== currentValue) ? currentValue - scaleParam.STEP : scaleParam.MAX - scaleParam.STEP;
+    if (element.classList.contains('scale__control--bigger')) {
+      value = (scaleParam.MIN !== currentValue) ? currentValue + scaleParam.STEP : scaleParam.MIN + scaleParam.STEP;
 
-    if (value < scaleParam.MIN) {
-      value = scaleParam.MIN;
+      if (value > scaleParam.MAX) {
+        value = scaleParam.MAX;
+      }
     }
 
-    applyPhotoSize(value);
-  };
+    if (element.classList.contains('scale__control--smaller')) {
+      value = (scaleParam.MAX !== currentValue) ? currentValue - scaleParam.STEP : scaleParam.MAX - scaleParam.STEP;
 
-  var makeImageBigger = function () {
-    var currentValue = getCurrentValue();
-
-    value = (scaleParam.MIN !== currentValue) ? currentValue + scaleParam.STEP : scaleParam.MIN + scaleParam.STEP;
-
-    if (value > scaleParam.MAX) {
-      value = scaleParam.MAX;
+      if (value < scaleParam.MIN) {
+        value = scaleParam.MIN;
+      }
     }
-
     applyPhotoSize(value);
   };
 
@@ -60,14 +56,7 @@
 
   scaleButtonsContainer.addEventListener('click', function (evt) {
     var clickedElement = evt.target;
-
-    if (clickedElement.classList.contains('scale__control--bigger')) {
-      makeImageBigger();
-    }
-
-    if (clickedElement.classList.contains('scale__control--smaller')) {
-      makeImageSmaller();
-    }
+    setPhotoSize(clickedElement);
   });
 
   scale.resetPhotoSize = resetPhotoSize();
