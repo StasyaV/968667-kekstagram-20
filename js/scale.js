@@ -1,53 +1,70 @@
 'use strict';
 (function () {
-    var MAX_VALUE = 1;
-    var MIN_VALUE = 0.25;
-    var SCALE_STEP = 0.25;
-    var scaleButtonBigger = document.querySelector('.scale__control--bigger');
-    var scaleButtonSmaller = document.querySelector('.scale__control--smaller');
-    var scaleValue = document.querySelector('.scale__control--value');
-    var startMaxScaleValue = MAX_VALUE;
-    var startMinScaleValue = MIN_VALUE;
-    var imageToChange = document.querySelector('.img-upload__preview').querySelector('img');
-    
-    
-    imageToChange.style.transform = 'scale(' + MAX_VALUE + ')';
+  var scaleParam = {
+    MAX: 100,
+    MIN: 25,
+    STEP: 25,
+    MEASURE: '%'
+  }
+  var value = null;
+  var scaleButtonsContainer = document.querySelector('.scale');
+  var scaleValue = document.querySelector('.scale__control--value');
+  var imageToChange = document.querySelector('.img-upload__preview').querySelector('img');
 
-    var makeImageSmaller = function () {
-        var currentValue = parseInt(scaleValue.value) / 100;
-        
-        if (startMaxScaleValue !== currentValue) {
-            var value = currentValue -=SCALE_STEP;
-        } else {
-            value = startMaxScaleValue -= SCALE_STEP;
-        }
 
-        if (value < MIN_VALUE) {
-            value = MIN_VALUE;
-        }
+  var applyDefaultPhotoSize = function () {
+    imageToChange.style.transform = 'scale(' + (scaleParam.MAX / 100) + ')';
+    scaleValue.value = scaleParam.MAX + scaleParam.MEASURE;
+  };
 
-        imageToChange.style.transform = 'scale(' + value + ')';
-        scaleValue.value = Math.round(value * 100) + '%';
-    };
+  var applyPhotoSize = function (value) {
+    imageToChange.style.transform = 'scale(' + (value / 100) + ')';
+    scaleValue.value = value + scaleParam.MEASURE;
+  };
 
-    var makeImageBigger = function () {
-        var currentValue = parseInt(scaleValue.value) / 100;
+  var resetPhotoSize = function () {
+    imageToChange.style.transform = '';
+  };
 
-        if (startMinScaleValue !== currentValue) {
-            var value = currentValue +=SCALE_STEP;
-        } else {
-            value = startMinScaleValue += SCALE_STEP;
-        }
+  var getCurrentValue = function () {
+    return parseInt(scaleValue.value);
+  }
 
-        if (value > MAX_VALUE) {
-            value = MAX_VALUE;
-        }
+  var makeImageSmaller = function () {
+    var currentValue = getCurrentValue();
 
-        imageToChange.style.transform = 'scale(' + value + ')';
-        scaleValue.value = Math.round(value * 100) + '%';
-    };
+    scaleParam.MAX !== currentValue ? value = currentValue - scaleParam.STEP : value = scaleParam.MAX - scaleParam.STEP;
 
-    scaleButtonSmaller.addEventListener('click', makeImageSmaller);
+    if (value < scaleParam.MIN) {
+      value = scaleParam.MIN;
+    }
 
-    scaleButtonBigger.addEventListener('click', makeImageBigger);    
+    applyPhotoSize(value);
+  };
+
+  var makeImageBigger = function () {
+    var currentValue = getCurrentValue();
+
+    scaleParam.MIN !== currentValue ? value = currentValue + scaleParam.STEP : value = scaleParam.MIN + scaleParam.STEP;
+
+    if (value > scaleParam.MAX) {
+      value = scaleParam.MAX;
+    }
+
+    applyPhotoSize(value);
+  };
+
+  applyDefaultPhotoSize();
+
+  scaleButtonsContainer.addEventListener('click', function (evt) {
+    var clickedElement = evt.target;
+
+    if (clickedElement.classList.contains('scale__control--bigger')) {
+      makeImageBigger();
+    }
+
+    if (clickedElement.classList.contains('scale__control--smaller')) {
+      makeImageSmaller();
+    }
+  });
 })();
