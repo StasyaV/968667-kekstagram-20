@@ -12,7 +12,7 @@
   var scaleValue = document.querySelector('.scale__control--value');
   var imageToChange = document.querySelector('.img-upload__preview').querySelector('img');
 
-  var applyDefaultPhotoSize = function () {
+  window.applyDefaultPhotoSize = function () {
     imageToChange.style.transform = 'scale(' + (scaleParam.MAX / 100) + ')';
     scaleValue.value = scaleParam.MAX + scaleParam.MEASURE;
   };
@@ -26,27 +26,21 @@
     imageToChange.style.transform = '';
   };
 
-  var getCurrentValue = function () {
-    return parseInt(scaleValue.value, 10);
-  };
+  var onScaleButtonsContainerClick = function (evt) {
+    var currentValue = parseInt(scaleValue.value, 10);
 
-  var setPhotoSize = function (evt) {
-    var currentValue = getCurrentValue();
-
-    if (evt.target.classList.contains('scale__control--bigger') && currentValue < scaleParam.MAX && currentValue >= scaleParam.MIN) {
+    if (evt.target.classList.contains('scale__control--bigger') && currentValue < scaleParam.MAX) {
       currentValue += scaleParam.STEP;
     }
 
-    if (evt.target.classList.contains('scale__control--smaller') && currentValue <= scaleParam.MAX && currentValue > scaleParam.MIN) {
+    if (evt.target.classList.contains('scale__control--smaller') && currentValue > scaleParam.MIN) {
       currentValue -= scaleParam.STEP;
     }
 
     applyPhotoSize(currentValue);
   };
 
-  applyDefaultPhotoSize();
-
-  scaleButtonsContainer.addEventListener('click', setPhotoSize);
+  scaleButtonsContainer.addEventListener('click', onScaleButtonsContainerClick);
 
   scale.resetPhotoSize = resetPhotoSize();
   scale = window.scale;

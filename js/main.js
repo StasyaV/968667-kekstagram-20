@@ -34,6 +34,7 @@ var showEditImageForm = function () {
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
 
   document.addEventListener('keydown', window.closeByEsc);
+  window.applyDefaultPhotoSize();
 };
 
 var closeEditImageForm = function () {
