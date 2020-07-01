@@ -17,7 +17,7 @@
     return randomNum > minValue ? randomNum : minValue;
   };
 
-  util.closeByEsc = closeByEsc();
-  util.getRandomNum = getRandomNum();
+  util.closeByEsc = closeByEsc;
+  util.getRandomNum = getRandomNum;
   window.util = util;
 })();

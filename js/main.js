@@ -5,6 +5,7 @@
   var scale = window.scale;
   var util = window.util;
   var preview = window.preview;
+  var bigPictureWindow = document.querySelector('.big-picture');
 
   var getPictureData = function (pictureId, data) {
     var picture = data.find(function (item) {
@@ -27,10 +28,12 @@
   };
 
   var closeBigImage = function () {
-    document.querySelector('.big-picture').classList.add('hidden');
-    document.querySelector('body').classList.remove('modal-open');
+    if (bigPictureWindow) {
+      document.querySelector('.big-picture').classList.add('hidden');
+      document.querySelector('body').classList.remove('modal-open');
 
-    document.removeEventListener('keydown', util.closeByEsc);
+      document.removeEventListener('keydown', util.closeByEsc);
+    }
   };
 
   var showEditImageForm = function () {
@@ -54,7 +57,6 @@
     var uploadFile = document.querySelector('#upload-file');
     var hashatagsInput = imageEditWindow.querySelector('input[name=hashtags]');
     var closeButton = document.querySelector('#picture-cancel');
-    var bigPictureWindow = document.querySelector('.big-picture');
     var picturesContainer = document.querySelector('.pictures');
     var textDescription = document.querySelector('.text__description');
 
@@ -92,8 +94,8 @@
   };
 
   popupSettings();
-  main.closeBigImage = closeBigImage();
-  main.closeEditImageForm = closeEditImageForm();
+  main.closeBigImage = closeBigImage;
+  main.closeEditImageForm = closeEditImageForm;
   window.main = main;
 })();
 

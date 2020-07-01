@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var util = window.util;
+  var pictures = window.pictures;
   var preview = {};
 
   var makeBlocksHidden = function () {
@@ -17,13 +18,13 @@
     bigPictureBlock.querySelector('.likes-count').textContent = photo.likes;
     bigPictureBlock.querySelector('.comments-count').textContent = photo.comments;
 
-    bigPictureBlock.querySelector('.social__comments').appendChild(window.renderComments());
+    bigPictureBlock.querySelector('.social__comments').appendChild(pictures.renderComments());
     document.querySelector('body').classList.add('modal-open');
     makeBlocksHidden();
 
     document.addEventListener('keydown', util.closeByEsc);
   };
 
-  preview.showBigPicture = showBigPicture();
+  preview.showBigPicture = showBigPicture;
   window.preview = preview;
 })();

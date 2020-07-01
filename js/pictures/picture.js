@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var mock = window.mock;
+  var pictures = {};
   var createPicture = function (photo) {
     var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
     var picture = pictureTemplate.cloneNode(true);
@@ -31,7 +32,7 @@
     return comment;
   };
 
-  window.renderComments = function () {
+  var renderComments = function () {
     var commentsArray = mock.getCommentsList();
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < commentsArray.length; i++) {
@@ -42,4 +43,7 @@
   };
 
   renderPictures();
+
+  pictures.renderComments = renderComments;
+  window.pictures = pictures;
 })();

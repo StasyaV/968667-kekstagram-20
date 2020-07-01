@@ -42,7 +42,7 @@
 
   scaleButtonsContainer.addEventListener('click', onScaleButtonsContainerClick);
 
-  scale.resetPhotoSize = resetPhotoSize();
-  scale.applyDefaultPhotoSize = applyDefaultPhotoSize();
+  scale.resetPhotoSize = resetPhotoSize;
+  scale.applyDefaultPhotoSize = applyDefaultPhotoSize;
   window.scale = scale;
 })();
