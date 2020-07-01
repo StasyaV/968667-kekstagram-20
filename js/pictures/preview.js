@@ -1,11 +1,14 @@
 'use strict';
 (function () {
+  var util = window.util;
+  var preview = {};
+
   var makeBlocksHidden = function () {
     document.querySelector('.social__comment-count').classList.add('hidden');
     document.querySelector('.comments-loader').classList.add('hidden');
   };
 
-  window.showBigPicture = function (photo) {
+  var showBigPicture = function (photo) {
     var bigPictureBlock = document.querySelector('.big-picture');
     bigPictureBlock.classList.remove('hidden');
 
@@ -18,6 +21,9 @@
     document.querySelector('body').classList.add('modal-open');
     makeBlocksHidden();
 
-    document.addEventListener('keydown', window.closeByEsc);
+    document.addEventListener('keydown', util.closeByEsc);
   };
+
+  preview.showBigPicture = showBigPicture();
+  window.preview = preview;
 })();
