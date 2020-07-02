@@ -1,9 +1,9 @@
 'use strict';
 (function () {
+  var ESCAPE = 'Escape';
   var pictures = window.pictures;
   var mock = window.mock;
   var preview = {};
-  var popup = window.popup;
   var bigPictureWindow = document.querySelector('.big-picture');
 
   var makeBlocksHidden = function () {
@@ -24,7 +24,7 @@
     document.querySelector('body').classList.add('modal-open');
     makeBlocksHidden();
 
-    document.addEventListener('keydown', popup.onImageKeyDown);
+    document.addEventListener('keydown', closeImageByEsc);
   };
 
   var getPictureData = function (pictureId, data) {
@@ -44,7 +44,7 @@
     var pictureData = getPictureData(clickedPicture.id, mock.photosData);
     preview.showBigPicture(pictureData);
 
-    document.addEventListener('keydown', popup.onImageKeyDown);
+    document.addEventListener('keydown', closeImageByEsc);
   };
 
   var closeBigImage = function () {
@@ -58,7 +58,9 @@
 
   var closeImageByEsc = function (evt) {
     evt.preventDefault();
-    closeBigImage();
+    if (evt.key === ESCAPE) {
+      closeBigImage();
+    }
   };
 
   preview.showBigPicture = showBigPicture;

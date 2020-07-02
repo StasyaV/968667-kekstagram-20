@@ -1,9 +1,10 @@
 'use strict';
 (function () {
+  var ESCAPE = 'Escape';
   var formBlock = {};
   var scale = window.scale;
-  var popup = window.popup;
   var form = document.querySelector('form');
+
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
   });
@@ -12,7 +13,7 @@
     document.querySelector('body').classList.add('modal-open');
     document.querySelector('.img-upload__overlay').classList.remove('hidden');
 
-    document.addEventListener('keydown', popup.onFormKeydown);
+    document.addEventListener('keydown', closeFormByEsc);
     scale.applyDefaultPhotoSize();
   };
 
@@ -20,12 +21,14 @@
     document.querySelector('body').classList.remove('modal-open');
     document.querySelector('.img-upload__overlay').classList.add('hidden');
 
-    document.removeEventListener('keydown', popup.onFormKeydown);
+    document.removeEventListener('keydown', closeFormByEsc);
   };
 
   var closeFormByEsc = function (evt) {
     evt.preventDefault();
-    closeEditImageForm();
+    if (evt.key === ESCAPE) {
+      closeEditImageForm();
+    }
   };
 
   formBlock.showEditImageForm = showEditImageForm;
