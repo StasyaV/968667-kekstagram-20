@@ -1,14 +1,13 @@
 'use strict';
 (function () {
   var util = {};
-  var main = window.main;
   var ESCAPE = 'Escape';
 
-  var closeByEsc = function (evt) {
-    if (evt.key === ESCAPE) {
-      evt.preventDefault();
-      main.closeEditImageForm();
-      main.closeBigImage();
+  var keyboard = {
+    isEscEvent: function (evt, callback) {
+      if (evt.key === ESCAPE) {
+        callback();
+      }
     }
   };
 
@@ -17,7 +16,7 @@
     return randomNum > minValue ? randomNum : minValue;
   };
 
-  util.closeByEsc = closeByEsc;
   util.getRandomNum = getRandomNum;
+  util.keyboard = keyboard;
   window.util = util;
 })();
