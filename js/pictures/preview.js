@@ -1,9 +1,8 @@
 'use strict';
 (function () {
-  var ESCAPE = 'Escape';
   var pictures = window.pictures;
   var mock = window.mock;
-  var preview = {};
+  var util = window.util;
   var bigPictureWindow = document.querySelector('.big-picture');
 
   var makeBlocksHidden = function () {
@@ -24,7 +23,7 @@
     document.querySelector('body').classList.add('modal-open');
     makeBlocksHidden();
 
-    document.addEventListener('keydown', closeImageByEsc);
+    document.addEventListener('keydown', onImageKeydown);
   };
 
   var getPictureData = function (pictureId, data) {
@@ -42,9 +41,9 @@
     }
 
     var pictureData = getPictureData(clickedPicture.id, mock.photosData);
-    preview.showBigPicture(pictureData);
+    showBigPicture(pictureData);
 
-    document.addEventListener('keydown', closeImageByEsc);
+    document.addEventListener('keydown', onImageKeydown);
   };
 
   var closeBigImage = function () {
@@ -52,20 +51,28 @@
       document.querySelector('.big-picture').classList.add('hidden');
       document.querySelector('body').classList.remove('modal-open');
 
-      document.removeEventListener('keydown', closeImageByEsc);
+      document.removeEventListener('keydown', onImageKeydown);
     }
   };
 
-  var closeImageByEsc = function (evt) {
-    evt.preventDefault();
-    if (evt.key === ESCAPE) {
-      closeBigImage();
-    }
+  var closeImageByEsc = function () {
+    closeBigImage();
   };
 
-  preview.showBigPicture = showBigPicture;
-  preview.closeBigImage = closeBigImage;
-  preview.openBigImage = openBigImage;
-  preview.closeImageByEsc = closeImageByEsc;
-  window.preview = preview;
+  var onImageKeydown = function (evt) {
+    util.keyboard.isEscEvent(evt, closeImageByEsc);
+  };
+
+  var bigImageSettings = function () {
+    var closeButton = document.querySelector('#picture-cancel');
+    var picturesContainer = document.querySelector('.pictures');
+
+    if (bigPictureWindow) {
+      closeButton.addEventListener('click', closeBigImage);
+    }
+
+    picturesContainer.addEventListener('click', openBigImage);
+  };
+
+  bigImageSettings();
 })();
