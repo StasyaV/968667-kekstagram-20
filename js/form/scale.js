@@ -12,7 +12,7 @@
   var scaleValue = document.querySelector('.scale__control--value');
   var imageToChange = document.querySelector('.img-upload__preview').querySelector('img');
 
-  window.applyDefaultPhotoSize = function () {
+  var applyDefaultPhotoSize = function () {
     imageToChange.style.transform = 'scale(' + (scaleParam.MAX / 100) + ')';
     scaleValue.value = scaleParam.MAX + scaleParam.MEASURE;
   };
@@ -42,6 +42,7 @@
 
   scaleButtonsContainer.addEventListener('click', onScaleButtonsContainerClick);
 
-  scale.resetPhotoSize = resetPhotoSize();
-  scale = window.scale;
+  scale.resetPhotoSize = resetPhotoSize;
+  scale.applyDefaultPhotoSize = applyDefaultPhotoSize;
+  window.scale = scale;
 })();

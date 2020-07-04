@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var mock = {};
+  var util = window.util;
   var photosCounts = 25;
   var commentsMessage = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
     'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -13,11 +14,11 @@
     namesArr = namesArr ? namesArr : names;
     comments = comments ? comments : commentsMessage;
     var commentsArray = [];
-    for (var i = 0; i < window.getRandomNum(0, 10); i++) {
+    for (var i = 0; i < util.getRandomNum(0, 10); i++) {
       var commentBlock = {
-        avatar: 'img/avatar-' + window.getRandomNum(1, 6) + '.svg',
-        message: comments[window.getRandomNum(0, comments.length)],
-        name: namesArr[window.getRandomNum(0, namesArr.length)]
+        avatar: 'img/avatar-' + util.getRandomNum(1, 6) + '.svg',
+        message: comments[util.getRandomNum(0, comments.length)],
+        name: namesArr[util.getRandomNum(0, namesArr.length)]
       };
       commentsArray.push(commentBlock);
     }
@@ -26,9 +27,9 @@
 
   var getPhotoObj = function (index, comments) {
     var photoObj = {
-      url: 'photos/' + window.getRandomNum(1, 25) + '.jpg',
+      url: 'photos/' + util.getRandomNum(1, 25) + '.jpg',
       description: '',
-      likes: window.getRandomNum(15, 200),
+      likes: util.getRandomNum(15, 200),
       comments: comments.length,
       id: index
     };
