@@ -2,130 +2,84 @@
 (function () {
   var effects = {};
   var scale = window.scale;
-  var slider = window.clider;
-  var filterNames = {
-    none: 'none',
-    chrome: 'chrome',
-    sepia: 'sepia',
-    marvin: 'marvin',
-    phobos: 'phobos',
-    heat: 'heat'
-  };
+  var slider = window.slider;
+  var currentFilter = null;
+  var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
 
-  var filterTypes = {
-    none: 'saturate',
-    chrome: 'grayscale',
-    sepia: 'sepia',
-    marvin: 'invert',
-    phobos: 'blur',
-    heat: 'brightnes'
-  };
-
-  var filtersMeasure = {
-    none: '%',
-    chrome: '',
-    sepia: '',
-    marvin: '%',
-    phobos: 'px',
-    heat: ''
-  };
-
-  var filtersRatioAction = {
-    none: '*1',
-    chrome: '/100',
-    sepia: '/100',
-    marvin: '*1',
-    phobos: '/100*3',
-    heat: '/100*3'
-  };
-
-  var filtersList = [
-    {
-      name: filterNames.none,
-      filter: filterTypes.none,
-      measure: filtersMeasure.none,
-      ratioAction: filtersRatioAction.none
+  var FILTER = {
+    none: {
+      className: 'none'
     },
-    {
-      name: filterNames.chrome,
-      filter: filterTypes.chrome,
-      measure: filtersMeasure.chrome,
-      ratioAction: filtersRatioAction.chrome
+    chrome: {
+      className: 'chrome',
+      filterType: 'grayscale',
+      min: '0',
+      max: '1',
+      measure: ''
     },
-    {
-      name: filterNames.sepia,
-      filter: filterTypes.sepia,
-      measure: filtersMeasure.sepia,
-      ratioAction: filtersRatioAction.sepia
+    sepia: {
+      className: 'sepia',
+      filterType: 'sepia',
+      min: '0',
+      max: '1',
+      measure: ''
     },
-    {
-      name: filterNames.marvin,
-      filter: filterTypes.marvin,
-      measure: filtersMeasure.marvin,
-      ratioAction: filtersRatioAction.marvin
+    marvin: {
+      className: 'marvin',
+      filterType: 'invert',
+      min: '0',
+      max: '100',
+      measure: '%'
     },
-    {
-      name: filterNames.phobos,
-      filter: filterTypes.phobos,
-      measure: filtersMeasure.phobos,
-      ratioAction: filtersRatioAction.phobos
+    phobos: {
+      className: 'phobos',
+      filterType: 'blur',
+      min: '0',
+      max: '3',
+      measure: 'px'
     },
-    {
-      name: filterNames.heat,
-      filter: filterTypes.heat,
-      measure: filtersMeasure.heat,
-      ratioAction: filtersRatioAction.heat
+    heat: {
+      className: 'heat',
+      filterType: 'brightness',
+      min: '1',
+      max: '2',
+      measure: ''
     }
-  ];
-
-  var getFilterType = function (value, data) {
-    var effect = data.find(function (item) {
-      return item.name === value;
-    });
-    return effect.filter;
   };
 
-  var getFilterMeasure = function (value, data) {
-    var effect = data.find(function (item) {
-      return item.name === value;
-    });
-    return effect.measure;
+  var changeEffect = function (value) {
+    if (currentFilter) {
+      imgPreview.style.filter = currentFilter.filterType + '(' + (+currentFilter.max * +value + +currentFilter.min) + currentFilter.measure + ')';
+    }
   };
 
-  var getFilterRatioAction = function (value, data) {
-    var effect = data.find(function (item) {
-      return item.name === value;
-    });
-    return effect.ratioAction;
+  var resetFilter = function () {
+    imgPreview.style.filter = '';
   };
 
-  var acceptPhotoEffect = function (evt, style, ratio) {
-    var value = evt.target.value;
-    var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
-    var effectClass = 'effects__preview--' + value;
-    imgPreview.className = effectClass;
+  var onEffectsListChange = function (evt) {
+    currentFilter = FILTER[evt.target.value];
+    imgPreview.className = 'effects__preview--' + currentFilter.className;
+
+    if (currentFilter.className === 'none') {
+      slider.makeSliderHidden();
+    } else {
+      slider.makeSliderActive();
+    }
 
     scale.resetPhotoSize();
-    slider.reserSliderValues();
-
-    var getDepthOfEffect = function () {
-      var filter = getFilterType(value, filtersList);
-      var measure = getFilterMeasure(value, filtersList);
-      var action = getFilterRatioAction(value, filtersList);
-
-      style = filter + '(' + ratio + action + measure + ')';
-    };
-
-    getDepthOfEffect();
+    slider.resetSliderValues();
+    resetFilter();
   };
 
   var changePhotoEffects = function () {
     var effectsList = document.querySelector('.effects__list');
-    effectsList.addEventListener('change', acceptPhotoEffect);
+    effectsList.addEventListener('change', onEffectsListChange);
   };
 
   changePhotoEffects();
+  slider.initSlider(changeEffect);
 
-  effects.acceptPhotoEffect = acceptPhotoEffect;
+  effects.changeEffect = changeEffect;
   window.effects = effects;
 })();
