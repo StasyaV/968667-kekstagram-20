@@ -1,25 +1,28 @@
 'use strict';
 (function () {
+  var slider = {};
+  var levelPin = document.querySelector('.effect-level__pin');
+  var levelLine = document.querySelector('.effect-level__line');
+  var inputLine = document.querySelector('.effect-level__value');
+  var effectLine = document.querySelector('.effect-level__depth');
+  var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
+
+
+  var resetSliderValues = function () {
+    levelPin.style.left = 100 + '%';
+    effectLine.style.width = 100 + '%';
+    inputLine.value = 100;
+  };
+
+
+  var updateSliderValues = function (ratio) {
+    levelPin.style.left = ratio + '%';
+    effectLine.style.width = ratio + '%';
+    inputLine.value = ratio;
+    imgPreview.style.filter = 'saturate(' + ratio + '%)';
+  };
+
   var getSliderBar = function () {
-    var levelPin = document.querySelector('.effect-level__pin');
-    var levelLine = document.querySelector('.effect-level__line');
-    var inputLine = document.querySelector('.effect-level__value');
-    var effectLine = document.querySelector('.effect-level__depth');
-    // var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
-
-    var updateSliderValues = function (ratio) {
-      levelPin.style.left = ratio + '%';
-      effectLine.style.width = ratio + '%';
-      inputLine.value = ratio;
-      // imgPreview.style.filter = 'saturate(' + (levelPin.offsetLeft - shiftX) + '%)';
-    };
-
-    // var resetSliderValues = function () {
-    //   levelPin.style.left = 100 + '%';
-    //   effectLine.style.width = 100 + '%';
-    //   inputLine.value = 100;
-    // };
-
     var getCoords = function (elem) {
       var box = elem.getBoundingClientRect();
       return {
@@ -48,7 +51,6 @@
         }
 
         ratio = Math.round((left / right) * 100);
-        window.console.log(ratio);
 
         updateSliderValues(ratio);
       };
@@ -66,4 +68,6 @@
   };
 
   getSliderBar();
+  slider.resetSliderValues = resetSliderValues;
+  window.slider = slider;
 })();

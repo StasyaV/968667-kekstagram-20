@@ -24,6 +24,7 @@
 
   var resetPhotoSize = function () {
     imageToChange.style.transform = '';
+    applyDefaultPhotoSize();
   };
 
   var onScaleButtonsContainerClick = function (evt) {
