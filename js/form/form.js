@@ -2,6 +2,7 @@
 (function () {
   var util = window.util;
   var scale = window.scale;
+  var slider = window.slider;
   var form = document.querySelector('form');
 
   form.addEventListener('submit', function (evt) {
@@ -11,6 +12,8 @@
   var showEditImageForm = function () {
     document.querySelector('body').classList.add('modal-open');
     document.querySelector('.img-upload__overlay').classList.remove('hidden');
+
+    slider.makeSliderHidden();
 
     document.addEventListener('keydown', onFormKeydown);
     scale.applyDefaultPhotoSize();

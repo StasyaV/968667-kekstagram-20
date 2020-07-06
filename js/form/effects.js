@@ -1,17 +1,85 @@
 'use strict';
 (function () {
+  var effects = {};
+  var scale = window.scale;
+  var slider = window.slider;
+  var currentFilter = null;
+  var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
+
+  var FILTER = {
+    none: {
+      className: 'none'
+    },
+    chrome: {
+      className: 'chrome',
+      filterType: 'grayscale',
+      min: '0',
+      max: '1',
+      measure: ''
+    },
+    sepia: {
+      className: 'sepia',
+      filterType: 'sepia',
+      min: '0',
+      max: '1',
+      measure: ''
+    },
+    marvin: {
+      className: 'marvin',
+      filterType: 'invert',
+      min: '0',
+      max: '100',
+      measure: '%'
+    },
+    phobos: {
+      className: 'phobos',
+      filterType: 'blur',
+      min: '0',
+      max: '3',
+      measure: 'px'
+    },
+    heat: {
+      className: 'heat',
+      filterType: 'brightness',
+      min: '1',
+      max: '2',
+      measure: ''
+    }
+  };
+
+  var changeEffect = function (value) {
+    if (currentFilter) {
+      imgPreview.style.filter = currentFilter.filterType + '(' + (+currentFilter.max * +value + +currentFilter.min) + currentFilter.measure + ')';
+    }
+  };
+
+  var resetFilter = function () {
+    imgPreview.style.filter = '';
+  };
+
+  var onEffectsListChange = function (evt) {
+    currentFilter = FILTER[evt.target.value];
+    imgPreview.className = 'effects__preview--' + currentFilter.className;
+
+    if (currentFilter.className === 'none') {
+      slider.makeSliderHidden();
+    } else {
+      slider.makeSliderActive();
+    }
+
+    scale.resetPhotoSize();
+    slider.resetSliderValues();
+    resetFilter();
+  };
+
   var changePhotoEffects = function () {
     var effectsList = document.querySelector('.effects__list');
-    var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
-
-    var acceptPhotoEffect = function (evt) {
-      var value = evt.target.value;
-      var effectClass = 'effects__preview--' + value;
-      imgPreview.className = effectClass;
-    };
-
-    effectsList.addEventListener('change', acceptPhotoEffect);
+    effectsList.addEventListener('change', onEffectsListChange);
   };
 
   changePhotoEffects();
+  slider.initSlider(changeEffect);
+
+  effects.changeEffect = changeEffect;
+  window.effects = effects;
 })();
