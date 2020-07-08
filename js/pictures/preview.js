@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var pictures = window.pictures;
   var mock = window.mock;
   var util = window.util;
   var bigPictureWindow = document.querySelector('.big-picture');
@@ -19,7 +18,7 @@
     bigPictureBlock.querySelector('.likes-count').textContent = photo.likes;
     bigPictureBlock.querySelector('.comments-count').textContent = photo.comments;
 
-    bigPictureBlock.querySelector('.social__comments').appendChild(pictures.renderComments());
+    bigPictureBlock.querySelector('.social__comments').appendChild(window.load());
     document.querySelector('body').classList.add('modal-open');
     makeBlocksHidden();
 
