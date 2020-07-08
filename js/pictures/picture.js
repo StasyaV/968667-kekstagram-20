@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var MAX_COUNT_COMMENTS = 5;
+  var pictures = {};
 
   var successHandler = function (photos) {
     var fragment = document.createDocumentFragment();
@@ -11,6 +12,7 @@
       fragment.appendChild(createPicture(photos[i]));
     }
     picturesBlock.appendChild(fragment);
+    window.photosData = photos;
   };
 
   var errorHandler = function (errorMessage) {
@@ -65,25 +67,26 @@
     return comment;
   };
 
-  // var renderComments = function () {
-  //   var commentsArray = mock.getCommentsList();
-  //   var fragment = document.createDocumentFragment();
-  //   for (var i = 0; i < commentsArray.length; i++) {
-  //     var element = createComment(commentsArray[i]);
-  //     fragment.appendChild(element);
-  //   }
-  //   return fragment;
-  // };
-
-  window.load(function (comments) {
-    // var commentsArray = mock.getCommentsList();
+  var renderComments = function () {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < MAX_COUNT_COMMENTS; i++) {
-      var element = createComment(comments[i]);
+    for (var i = 0; i < window.photosData[i].comments.length; i++) {
+      var element = createComment(window.photosData[i].comments[i]);
       fragment.appendChild(element);
     }
     return fragment;
-  }, function () { });
+  };
+
+  // window.load(function (comments) {
+  //   // var commentsArray = mock.getCommentsList();
+  //   var fragment = document.createDocumentFragment();
+  //   for (var i = 0; i < MAX_COUNT_COMMENTS; i++) {
+  //     var element = createComment(comments[i]);
+  //     fragment.appendChild(element);
+  //   }
+  //   return fragment;
+  // }, function () { });
 
   window.load(successHandler, errorHandler);
+  pictures.renderComments = renderComments;
+  window.pictures = pictures;
 })();

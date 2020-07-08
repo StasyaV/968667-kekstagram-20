@@ -1,7 +1,7 @@
 'use strict';
 (function () {
-  var mock = window.mock;
   var util = window.util;
+  var pictures = window.pictures;
   var bigPictureWindow = document.querySelector('.big-picture');
 
   var makeBlocksHidden = function () {
@@ -18,7 +18,7 @@
     bigPictureBlock.querySelector('.likes-count').textContent = photo.likes;
     bigPictureBlock.querySelector('.comments-count').textContent = photo.comments;
 
-    bigPictureBlock.querySelector('.social__comments').appendChild(window.load());
+    bigPictureBlock.querySelector('.social__comments').appendChild(pictures.renderComments());
     document.querySelector('body').classList.add('modal-open');
     makeBlocksHidden();
 
@@ -39,7 +39,7 @@
       return;
     }
 
-    var pictureData = getPictureData(clickedPicture.id, mock.photosData);
+    var pictureData = getPictureData(clickedPicture.id, window.photosData);
     showBigPicture(pictureData);
 
     document.addEventListener('keydown', onImageKeydown);
