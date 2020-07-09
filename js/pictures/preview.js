@@ -24,19 +24,18 @@
     document.querySelector('body').classList.add('modal-open');
     makeCommentsListHidden();
 
-    buttonLoader.addEventListener('click', onButtonLoaderClick);
     document.addEventListener('keydown', onImageKeydown);
   };
 
   var makeCommentsListHidden = function () {
-    var commentsList = document.getElementsByClassName('social__comment');
+    var commentsList = bigPictureWindow.getElementsByClassName('social__comment');
     for (var i = MAX_COUNT_COMMENTS - 1; i < commentsList.length; i++) {
       commentsList[i].classList.add('hidden');
     }
   };
 
   var onButtonLoaderClick = function () {
-    var commentsList = document.querySelector('.social__comments');
+    var commentsList = bigPictureWindow.querySelector('.social__comments');
     var hiddenComments = commentsList.getElementsByClassName('hidden');
     if (hiddenComments) {
       for (var i = 0; i <= MAX_COUNT_COMMENTS; i++) {
@@ -69,6 +68,7 @@
     var pictureData = getPictureData(clickedPicture.id, window.photosData);
     showBigPicture(pictureData);
 
+    buttonLoader.addEventListener('click', onButtonLoaderClick);
     document.addEventListener('keydown', onImageKeydown);
   };
 
