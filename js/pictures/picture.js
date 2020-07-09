@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var MAX_COUNT_COMMENTS = 5;
   var pictures = {};
 
   var successHandler = function (photos) {
@@ -37,26 +36,6 @@
     return picture;
   };
 
-  // window.load(function (photos) {
-  //   var fragment = document.createDocumentFragment();
-  //   var picturesBlock = document.querySelector('.pictures');
-
-  //   for (var i = 0; i < photos.length; i++) {
-  //     fragment.appendChild(createPicture(photos[i]));
-  //   }
-  //   picturesBlock.appendChild(fragment);
-  // }, function () { });
-
-  // var renderPictures = function () {
-  //   var fragment = document.createDocumentFragment();
-  //   var picturesBlock = document.querySelector('.pictures');
-  //   for (var i = 0; i < mock.photosData.length; i++) {
-  //     var element = createPicture(mock.photosData[i]);
-  //     fragment.appendChild(element);
-  //   }
-  //   picturesBlock.appendChild(fragment);
-  // };
-
   var createComment = function (commentsElement) {
     var commentsTemplate = document.querySelector('.social__comment');
     var comment = commentsTemplate.cloneNode(true);
@@ -75,16 +54,6 @@
     }
     return fragment;
   };
-
-  // window.load(function (comments) {
-  //   // var commentsArray = mock.getCommentsList();
-  //   var fragment = document.createDocumentFragment();
-  //   for (var i = 0; i < MAX_COUNT_COMMENTS; i++) {
-  //     var element = createComment(comments[i]);
-  //     fragment.appendChild(element);
-  //   }
-  //   return fragment;
-  // }, function () { });
 
   window.load(successHandler, errorHandler);
   pictures.renderComments = renderComments;
