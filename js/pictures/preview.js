@@ -78,6 +78,7 @@
       document.querySelector('body').classList.remove('modal-open');
 
       document.removeEventListener('keydown', onImageKeydown);
+      buttonLoader.removeEventListener('click', onButtonLoaderClick);
     }
   };
 
