@@ -24,12 +24,13 @@
     document.querySelector('body').classList.add('modal-open');
     makeCommentsListHidden();
 
+    buttonLoader.addEventListener('click', onButtonLoaderClick);
     document.addEventListener('keydown', onImageKeydown);
   };
 
   var makeCommentsListHidden = function () {
     var commentsList = document.getElementsByClassName('social__comment');
-    for (var i = MAX_COUNT_COMMENTS; i < commentsList.length; i++) {
+    for (var i = MAX_COUNT_COMMENTS - 1; i < commentsList.length; i++) {
       commentsList[i].classList.add('hidden');
     }
   };
@@ -97,8 +98,6 @@
     }
 
     picturesContainer.addEventListener('click', openBigImage);
-
-    buttonLoader.addEventListener('click', onButtonLoaderClick);
   };
 
   bigImageSettings();
