@@ -37,7 +37,7 @@
   };
 
   var createComment = function (commentsElement) {
-    var commentsTemplate = document.querySelector('.social__comment');
+    var commentsTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
     var comment = commentsTemplate.cloneNode(true);
     comment.querySelector('img').src = commentsElement.avatar;
     comment.querySelector('img').alt = commentsElement.name;
@@ -46,12 +46,12 @@
     return comment;
   };
 
-  var renderComments = function () {
+  var renderComments = function (commentsArray) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.photosData[i].comments.length; i++) {
-      var element = createComment(window.photosData[i].comments[i]);
+    commentsArray.forEach(function (item) {
+      var element = createComment(item);
       fragment.appendChild(element);
-    }
+    });
     return fragment;
   };
 
