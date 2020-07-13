@@ -4,9 +4,16 @@
   var scale = window.scale;
   var slider = window.slider;
   var form = document.querySelector('form');
-
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var mainContent = document.querySelector('main');
+  
   form.addEventListener('submit', function (evt) {
-    evt.preventDefault();
+    window.upload(new FormData(form), function (response) {
+      closeEditImageForm();
+    });
+      evt.preventDefault();
+    });
   });
 
   var showEditImageForm = function () {
