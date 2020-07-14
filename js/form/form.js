@@ -4,33 +4,35 @@
   var scale = window.scale;
   var slider = window.slider;
   var effects = window.effects;
-  var form = document.querySelector('form');
+  var form = document.querySelector('.img-upload__form');
   var imageEditWindow = document.querySelector('.img-upload__overlay');
   var closeUpload = document.querySelector('#upload-cancel');
   var uploadFile = document.querySelector('#upload-file');
   var hashatagsInput = imageEditWindow.querySelector('input[name=hashtags]');
   var textDescription = document.querySelector('.text__description');
-  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-  var errorButton = document.querySelector('.error__button');
-  var successTemplate = document.querySelector('#success').content.querySelector('.success');
-  var successButton = document.querySelector('.success__button');
+  var errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+
+  var successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
   var mainContent = document.querySelector('main');
 
   var submitHandler = function (evt) {
     evt.preventDefault();
     window.upload(new FormData(form), successHandler, errorHandler);
-    closeEditImageForm();
     resetFormData();
+    effects.resetFilter();
+    closeEditImageForm();
   };
 
   var successHandler = function () {
-    var successMessage = successTemplate.cloneNode(true);
     mainContent.prepend(successMessage);
+    var successButton = successMessage.querySelector('.success__button');
+    successButton.addEventListener('click', onClickSuccessButton);
   };
 
   var errorHandler = function () {
-    var errorMessage = errorTemplate.cloneNode(true);
     mainContent.prepend(errorMessage);
+    var errorButton = errorMessage.querySelector('.error__button');
+    errorButton.addEventListener('click', onClickErrorButton);
   };
 
   var onClickSuccessButton = function () {
@@ -110,16 +112,6 @@
     }
   };
 
-  var uploadSettings = function () {
-    if (document.querySelector('.error')) {
-      errorButton.addEventListener('click', onClickErrorButton);
-    }
-    if (document.querySelector('.success')) {
-      successButton.addEventListener('click', onClickSuccessButton);
-    }
-  };
-
   form.addEventListener('submit', submitHandler);
   formSettings();
-  uploadSettings();
 })();
