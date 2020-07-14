@@ -81,5 +81,6 @@
   slider.initSlider(changeEffect);
 
   effects.changeEffect = changeEffect;
+  effects.resetFilter = resetFilter;
   window.effects = effects;
 })();
