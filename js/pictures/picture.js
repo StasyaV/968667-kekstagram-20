@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var pictures = {};
+  var loadData = window.dataApi.load;
 
   var successHandler = function (photos) {
     var fragment = document.createDocumentFragment();
@@ -55,7 +56,7 @@
     return fragment;
   };
 
-  window.load(successHandler, errorHandler);
+  loadData(successHandler, errorHandler);
   pictures.renderComments = renderComments;
   window.pictures = pictures;
 })();
