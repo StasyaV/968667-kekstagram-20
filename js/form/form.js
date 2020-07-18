@@ -13,10 +13,11 @@
   var errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
   var successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
   var mainContent = document.querySelector('main');
+  var uploadData = window.dataApi.upload;
 
   var submitHandler = function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(form), successHandler, errorHandler);
+    uploadData(new FormData(form), successHandler, errorHandler);
     closeEditImageForm();
     resetFormData();
   };
