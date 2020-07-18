@@ -61,7 +61,7 @@
     resetEffect();
     currentFilter = FILTER.none;
     imgPreview.className = 'effects__preview--' + currentFilter.className;
-    document.querySelector('input[name="effect"]:checked').checked = false;
+    currentFilter.checked = true;
   };
 
   var onEffectsListChange = function (evt) {

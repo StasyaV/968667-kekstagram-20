@@ -18,6 +18,7 @@
     evt.preventDefault();
     window.upload(new FormData(form), successHandler, errorHandler);
     closeEditImageForm();
+    resetFormData();
   };
 
   var successHandler = function () {
@@ -65,7 +66,6 @@
   };
 
   var closeEditImageForm = function () {
-    resetFormData();
     document.querySelector('body').classList.remove('modal-open');
     document.querySelector('.img-upload__overlay').classList.add('hidden');
 
