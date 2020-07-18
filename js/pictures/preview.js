@@ -99,7 +99,6 @@
 
       document.removeEventListener('keydown', onImageKeydown);
       buttonLoader.removeEventListener('click', onButtonLoaderClick);
-      // resetCommentsCount();
     }
   };
 

@@ -15,6 +15,13 @@
     window.photosData = photos;
   };
 
+  var clearPhotosList = function () {
+    var photosList = document.querySelector('.picture');
+    while (photosList.firstChild) {
+      photosList.firstChild.remove();
+    }
+  };
+
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
@@ -58,5 +65,7 @@
 
   loadData(successHandler, errorHandler);
   pictures.renderComments = renderComments;
+  pictures.successHandler = successHandler;
+  pictures.clearPhotosList = clearPhotosList;
   window.pictures = pictures;
 })();
