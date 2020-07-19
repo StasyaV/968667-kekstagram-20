@@ -16,9 +16,9 @@
   };
 
   var clearPhotosList = function () {
-    var photosList = document.querySelector('.picture');
-    while (photosList.firstChild) {
-      photosList.firstChild.remove();
+    var photosList = document.querySelector('.pictures');
+    while (photosList.children[2]) {
+      photosList.children[2].remove();
     }
   };
 
