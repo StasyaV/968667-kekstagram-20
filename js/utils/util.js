@@ -16,6 +16,10 @@
     return randomNum > minValue ? randomNum : minValue;
   };
 
+  var findUniqueElements = function (value, index, self) {
+    return self.indexOf(value) === index;
+  };
+
   var debounce = function (callBack, intervalal) {
     var lastTimeout = null;
     return function () {
@@ -31,6 +35,7 @@
 
   util.getRandomNum = getRandomNum;
   util.keyboard = keyboard;
+  util.findUniqueElements = findUniqueElements;
   util.debounce = debounce;
   window.util = util;
 })();

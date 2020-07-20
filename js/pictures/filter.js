@@ -4,6 +4,7 @@
   var renderPictures = window.pictures.renderPictures;
   var clearPhotosList = window.pictures.clearPhotosList;
   var getRandomNum = window.util.getRandomNum;
+  var findUniqueElements = window.util.findUniqueElements;
   var debounce = window.util.debounce;
   var filter = document.querySelector('.img-filters');
   var filterForm = document.querySelector('.img-filters__form');
@@ -19,8 +20,7 @@
   };
 
   var defaultFilter = function (data) {
-    clearPhotosList();
-    renderPictures(data);
+    return data;
   };
 
   var popularFirstFilter = function (data) {
@@ -28,13 +28,7 @@
     photosArray.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
-
-    clearPhotosList();
-    renderPictures(photosArray);
-  };
-
-  var findUnique = function (value, index, self) {
-    return self.indexOf(value) === index;
+    return photosArray;
   };
 
   var randomFilter = function (data) {
@@ -44,30 +38,31 @@
       var element = photos[getRandomNum(0, photos.length)];
       randomArray.push(element);
     }
-    var uniqueElements = randomArray.filter(findUnique);
+    var uniqueElements = randomArray.filter(findUniqueElements);
     var uniqueArray = uniqueElements.slice(0, 10);
-
-    clearPhotosList();
-    renderPictures(uniqueArray);
+    return uniqueArray;
   };
 
   var filterType = {
-    'filter-default': debounce(defaultFilter, TIMEOUT_IN_MS),
-    'filter-discussed': debounce(popularFirstFilter, TIMEOUT_IN_MS),
-    'filter-random': debounce(randomFilter, TIMEOUT_IN_MS)
+    'filter-default': defaultFilter,
+    'filter-discussed': popularFirstFilter,
+    'filter-random': randomFilter
   };
 
-  var filterData = function (evt) {
+  var onFilterFormMousedown = function (evt) {
     disableActiveFilterButton();
     var button = document.querySelector('#' + evt.target.id);
     button.classList.add(activeClass);
-    return filterType[evt.target.id](window.photosData);
   };
 
   var onFilterFormClick = function (evt) {
-    filterData(evt);
+    var filteredData = filterType[evt.target.id](window.photosData);
+
+    clearPhotosList();
+    renderPictures(filteredData);
   };
 
   setTimeout(showFilter, 1000);
-  filterForm.addEventListener('click', onFilterFormClick);
+  filterForm.addEventListener('click', debounce(onFilterFormClick, TIMEOUT_IN_MS));
+  filterForm.addEventListener('mousedown', onFilterFormMousedown);
 })();

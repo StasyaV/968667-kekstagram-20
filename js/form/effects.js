@@ -1,8 +1,11 @@
 'use strict';
 (function () {
   var effects = {};
-  var scale = window.scale;
-  var slider = window.slider;
+  var resetPhotoSize = window.scale.resetPhotoSize;
+  var makeSliderHidden = window.slider.makeSliderHidden;
+  var makeSliderActive = window.slider.makeSliderActive;
+  var resetSliderValues = window.slider.resetSliderValues;
+  var initSlider = window.slider.initSlider;
   var currentFilter = null;
   var imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
 
@@ -69,13 +72,13 @@
     imgPreview.className = 'effects__preview--' + currentFilter.className;
 
     if (currentFilter.className === 'none') {
-      slider.makeSliderHidden();
+      makeSliderHidden();
     } else {
-      slider.makeSliderActive();
+      makeSliderActive();
     }
 
-    scale.resetPhotoSize();
-    slider.resetSliderValues();
+    resetPhotoSize();
+    resetSliderValues();
     resetEffect();
   };
 
@@ -85,7 +88,7 @@
   };
 
   changePhotoEffects();
-  slider.initSlider(changeEffect);
+  initSlider(changeEffect);
 
   effects.changeEffect = changeEffect;
   effects.resetFilter = resetFilter;
