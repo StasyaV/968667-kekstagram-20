@@ -16,7 +16,21 @@
     return randomNum > minValue ? randomNum : minValue;
   };
 
+  var debounce = function (callBack, intervalal) {
+    var lastTimeout = null;
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        callBack.apply(null, parameters);
+      }, intervalal);
+    };
+  };
+
   util.getRandomNum = getRandomNum;
   util.keyboard = keyboard;
+  util.debounce = debounce;
   window.util = util;
 })();
