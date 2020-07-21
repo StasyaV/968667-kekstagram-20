@@ -4,6 +4,11 @@
   var loadData = window.dataApi.load;
 
   var successHandler = function (photos) {
+    renderPictures(photos);
+    window.photosData = photos;
+  };
+
+  var renderPictures = function (photos) {
     var fragment = document.createDocumentFragment();
     var picturesBlock = document.querySelector('.pictures');
 
@@ -12,7 +17,14 @@
       fragment.appendChild(createPicture(photos[i]));
     }
     picturesBlock.appendChild(fragment);
-    window.photosData = photos;
+  };
+
+  var clearPhotosList = function () {
+    var photosList = document.querySelector('.pictures');
+    var photos = document.querySelectorAll('.picture');
+    photos.forEach(function (item) {
+      photosList.removeChild(item);
+    });
   };
 
   var errorHandler = function (errorMessage) {
@@ -58,5 +70,7 @@
 
   loadData(successHandler, errorHandler);
   pictures.renderComments = renderComments;
+  pictures.renderPictures = renderPictures;
+  pictures.clearPhotosList = clearPhotosList;
   window.pictures = pictures;
 })();

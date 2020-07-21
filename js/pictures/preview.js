@@ -1,14 +1,12 @@
 'use strict';
 (function () {
   var MAX_COUNT_COMMENTS = 5;
-  var util = window.util;
-  var pictures = window.pictures;
-  var bigPictureWindow = document.querySelector('.big-picture');
+  var isEscEvent = window.util.keyboard.isEscEvent;
+  var renderComments = window.pictures.renderComments;
   var buttonLoader = document.querySelector('.comments-loader');
-  var commentsList = bigPictureWindow.querySelector('.social__comments');
   var commentsCopy = [];
-  var renderComments = pictures.renderComments;
   var bigPictureBlock = document.querySelector('.big-picture');
+  var commentsList = bigPictureBlock.querySelector('.social__comments');
   var count = 0;
 
   var showBigPicture = function (photo) {
@@ -93,14 +91,11 @@
   };
 
   var closeBigImage = function () {
-    if (bigPictureWindow) {
-      document.querySelector('.big-picture').classList.add('hidden');
-      document.querySelector('body').classList.remove('modal-open');
+    document.querySelector('.big-picture').classList.add('hidden');
+    document.querySelector('body').classList.remove('modal-open');
 
-      document.removeEventListener('keydown', onImageKeydown);
-      buttonLoader.removeEventListener('click', onButtonLoaderClick);
-      // resetCommentsCount();
-    }
+    document.removeEventListener('keydown', onImageKeydown);
+    buttonLoader.removeEventListener('click', onButtonLoaderClick);
   };
 
   var closeImageByEsc = function () {
@@ -108,16 +103,14 @@
   };
 
   var onImageKeydown = function (evt) {
-    util.keyboard.isEscEvent(evt, closeImageByEsc);
+    isEscEvent(evt, closeImageByEsc);
   };
 
   var bigImageSettings = function () {
     var closeButton = document.querySelector('#picture-cancel');
     var picturesContainer = document.querySelector('.pictures');
 
-    if (bigPictureWindow) {
-      closeButton.addEventListener('click', closeBigImage);
-    }
+    closeButton.addEventListener('click', closeBigImage);
 
     picturesContainer.addEventListener('click', openBigImage);
   };

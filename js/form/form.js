@@ -1,9 +1,9 @@
 'use strict';
 (function () {
-  var util = window.util;
-  var scale = window.scale;
-  var slider = window.slider;
-  var effects = window.effects;
+  var isEscEvent = window.util.keyboard.isEscEvent;
+  var applyDefaultPhotoSize = window.scale.applyDefaultPhotoSize;
+  var makeSliderHidden = window.slider.makeSliderHidden;
+  var resetFilter = window.effects.resetFilter;
   var form = document.querySelector('.img-upload__form');
   var imageEditWindow = document.querySelector('.img-upload__overlay');
   var closeUpload = document.querySelector('#upload-cancel');
@@ -55,13 +55,13 @@
   };
 
   var showEditImageForm = function () {
-    effects.resetFilter();
-    scale.applyDefaultPhotoSize();
+    resetFilter();
+    applyDefaultPhotoSize();
 
     document.querySelector('body').classList.add('modal-open');
     document.querySelector('.img-upload__overlay').classList.remove('hidden');
 
-    slider.makeSliderHidden();
+    makeSliderHidden();
 
     document.addEventListener('keydown', onFormKeydown);
   };
@@ -96,11 +96,11 @@
     document.removeEventListener('click', onClickBehindUploadMessage);
   };
   var onUploadMessageKeydown = function (evt) {
-    util.keyboard.isEscEvent(evt, closeUploadMessageByEsc);
+    isEscEvent(evt, closeUploadMessageByEsc);
   };
 
   var onFormKeydown = function (evt) {
-    util.keyboard.isEscEvent(evt, closeFormByEsc);
+    isEscEvent(evt, closeFormByEsc);
   };
 
   var resetFormData = function () {
