@@ -3,7 +3,7 @@
   var pictures = {};
   var loadData = window.dataApi.load;
 
-  var successHandler = function (photos) {
+  var onSuccessLoad = function (photos) {
     renderPictures(photos);
     window.photosData = photos;
   };
@@ -27,7 +27,7 @@
     });
   };
 
-  var errorHandler = function (errorMessage) {
+  var onErrorLoad = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -68,7 +68,7 @@
     return fragment;
   };
 
-  loadData(successHandler, errorHandler);
+  loadData(onSuccessLoad, onErrorLoad);
   pictures.renderComments = renderComments;
   pictures.renderPictures = renderPictures;
   pictures.clearPhotosList = clearPhotosList;
