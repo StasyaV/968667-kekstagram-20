@@ -76,7 +76,7 @@
     return picture;
   };
 
-  var openBigImage = function (evt) {
+  var onImagePreviewClick = function (evt) {
     var clickedPicture = evt.target.closest('.picture');
 
     if (clickedPicture === null) {
@@ -90,7 +90,7 @@
     document.addEventListener('keydown', onImageKeydown);
   };
 
-  var closeBigImage = function () {
+  var onClickCloseImageButton = function () {
     document.querySelector('.big-picture').classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
 
@@ -99,7 +99,7 @@
   };
 
   var closeImageByEsc = function () {
-    closeBigImage();
+    onClickCloseImageButton();
   };
 
   var onImageKeydown = function (evt) {
@@ -110,9 +110,9 @@
     var closeButton = document.querySelector('#picture-cancel');
     var picturesContainer = document.querySelector('.pictures');
 
-    closeButton.addEventListener('click', closeBigImage);
+    closeButton.addEventListener('click', onClickCloseImageButton);
 
-    picturesContainer.addEventListener('click', openBigImage);
+    picturesContainer.addEventListener('click', onImagePreviewClick);
   };
 
   bigImageSettings();

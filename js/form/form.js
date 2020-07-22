@@ -15,14 +15,14 @@
   var mainContent = document.querySelector('main');
   var uploadData = window.dataApi.upload;
 
-  var submitHandler = function (evt) {
+  var onSubmit = function (evt) {
     evt.preventDefault();
-    uploadData(new FormData(form), successHandler, errorHandler);
+    uploadData(new FormData(form), onSuccessUpload, onErrorUpload);
     closeEditImageForm();
     resetFormData();
   };
 
-  var successHandler = function () {
+  var onSuccessUpload = function () {
     mainContent.prepend(successMessage);
     document.addEventListener('keydown', onUploadMessageKeydown);
     document.addEventListener('click', onClickBehindUploadMessage);
@@ -31,7 +31,7 @@
     successButton.addEventListener('click', onClickSuccessButton);
   };
 
-  var errorHandler = function () {
+  var onErrorUpload = function () {
     mainContent.prepend(errorMessage);
     document.addEventListener('keydown', onUploadMessageKeydown);
     document.addEventListener('click', onClickBehindUploadMessage);
@@ -138,6 +138,6 @@
     }
   };
 
-  form.addEventListener('submit', submitHandler);
+  form.addEventListener('submit', onSubmit);
   formSettings();
 })();

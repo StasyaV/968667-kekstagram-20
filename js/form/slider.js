@@ -19,10 +19,10 @@
     inputLine.value = Math.round(ratio * 100);
   };
 
-  var initSlider = function (fn) {
+  var initSlider = function (callback) {
     levelPin.addEventListener('mousedown', function (evt) {
       if (typeof fn === 'function') {
-        onLevelPinMouseDown(evt, fn);
+        onLevelPinMouseDown(evt, callback);
       }
     });
   };
