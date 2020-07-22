@@ -70,10 +70,9 @@
   };
 
   var getPictureData = function (pictureId, data) {
-    var picture = data.find(function (item) {
+    return data.find(function (item) {
       return +item.id === +pictureId;
     });
-    return picture;
   };
 
   var onImagePreviewClick = function (evt) {

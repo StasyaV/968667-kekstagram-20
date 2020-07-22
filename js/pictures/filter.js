@@ -39,8 +39,7 @@
       randomArray.push(element);
     }
     var uniqueElements = randomArray.filter(findUniqueElements);
-    var uniqueArray = uniqueElements.slice(0, 10);
-    return uniqueArray;
+    return uniqueElements.slice(0, 10);
   };
 
   var filterType = {
