@@ -37,7 +37,7 @@
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
-              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required>
+              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" accept="image/jpeg, image/jpg, image/png" required>
               <label for="upload-file" class="img-upload__label  img-upload__control">Загрузить</label>
             </fieldset>
 
@@ -259,8 +259,8 @@
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
   <script src="js/utils/util.js"></script>
-  <script src="js/data/data-mock.js"></script>
   <script src="js/data/data-api.js"></script>
+  <script src="js/data/uploaded-pic.js"></script>  
   <script src="js/pictures/picture.js"></script>
   <script src="js/pictures/preview.js"></script>
   <script src="js/form/scale.js"></script>
@@ -268,7 +268,7 @@
   <script src="js/form/effects.js"></script>
   <script src="js/form/validation.js"></script>
   <script src="js/pictures/filter.js"></script>
-  <script src="js/form/form.js"></script>
+  <script src="js/form/form.js"></script>  
 </body>
 
 </html>
