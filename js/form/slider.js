@@ -21,7 +21,7 @@
 
   var initSlider = function (callback) {
     levelPin.addEventListener('mousedown', function (evt) {
-      if (typeof fn === 'function') {
+      if (typeof callback === 'function') {
         onLevelPinMouseDown(evt, callback);
       }
     });
